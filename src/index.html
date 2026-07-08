@@ -10,6 +10,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -23,6 +24,12 @@
             </a>
         </div>
 
+        <button id="menu-toggle" class="hamburger" aria-label="Abrir menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
         <nav class="nav" aria-label="Navegação principal">
             <ul id="links">
                 <li><a href="index.html" aria-current="page">Início</a></li>
@@ -34,17 +41,15 @@
     </header>
 
     <main id="conteudo-principal">
-
-        <!-- Banner Principal -->
         <section class="nexus-title" aria-labelledby="hero-title">
 
             <div class="content">
-                <h1 id="hero-title">Conecte pessoas, compartilhe ideias e registre momentos.</h1>
+                <h1 id="hero-title">Conecte-se com pessoas, compartilhe ideias e registre momentos.</h1>
 
                 <p>
-                    A Nexus é uma rede social desenvolvida para permitir que os
-                    usuários publiquem conteúdos de forma simples e organizada,
-                    criando um espaço para compartilhar experiências e interagir.
+                    A Nexus é uma rede social desenvolvida para permitir que
+                    pessoas se conectem e publiquem posts que as permitam lembrar de momentos marcantes,
+                    e interagir.
                 </p>
 
                 <div class="btns">
@@ -100,16 +105,14 @@
 
         </section>
 
-        <!-- Sobre -->
         <section class="about" aria-labelledby="about-title">
 
             <h2 id="about-title">Sobre a Nexus</h2>
 
-            <p>
-                A Nexus é um projeto acadêmico desenvolvido utilizando HTML, CSS
-                e JavaScript. Seu objetivo é simular o funcionamento básico de
-                uma rede social, permitindo cadastro, autenticação de usuários
-                e publicação de conteúdos em um feed.
+            <p style="text-align: justify;">
+                A Nexus é a rede social das conexões autênticas. Um espaço onde a sua privacidade é respeitada, as
+                comunidades são reais e as interações têm significado. Aqui, o que importa não são os algoritmos, mas as
+                pessoas e as histórias que elas carregam. Conecte-se ao que realmente importa.
             </p>
 
             <a href="./pages/about.html" class="btn btn-outline">Saiba Mais</a>
@@ -118,11 +121,43 @@
 
     </main>
 
-    <!-- Rodapé -->
     <footer class="footer">
         <p>&copy; 2026 Nexus. Todos os direitos reservados.</p>
     </footer>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.nav');
+        const linksList = document.getElementById('links');
 
+        if (menuToggle && nav) {
+            menuToggle.addEventListener('click', () => {
+                const isOpen = nav.classList.toggle('nav-active');
+
+                menuToggle.setAttribute('aria-expanded', isOpen);
+                menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            });
+
+            linksList?.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    nav.classList.remove('nav-active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    menuToggle.setAttribute('aria-label', 'Abrir menu');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768 && nav.classList.contains('nav-active')) {
+                    nav.classList.remove('nav-active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    menuToggle.setAttribute('aria-label', 'Abrir menu');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
