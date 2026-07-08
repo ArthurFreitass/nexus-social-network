@@ -17,7 +17,7 @@
     --font-family: "Inter", sans-serif;
 
     /*Espaçamentos e margens*/
-    
+
     --fs-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
     --fs-base: clamp(1rem, 0.95rem + 0.2vw, 1.1rem);
     --fs-md: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
@@ -102,13 +102,14 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--background);
-    border: 1px solid var(--border-separators);
+    background-color: var(--background-main);
+    border: none;
     border-radius: var(--radius-lg);
     gap: var(--space-md);
     max-width: var(--container-max);
     margin: var(--space-sm) auto;
     padding: var(--space-sm) var(--space-md);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.12);
 }
 
 .header .logo img {
@@ -140,6 +141,13 @@ body {
     height: 2px;
     background: var(--primary);
     transition: width var(--transition-base);
+}
+
+.nav #theme {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
 #links a:hover,
@@ -226,10 +234,34 @@ body {
     font-size: var(--fs-xl);
     font-weight: 800;
     line-height: 1.15;
-    background: linear-gradient(135deg, var(--mainText), var(--secondText));
+
+    background: linear-gradient(90deg,
+            var(--mainText),
+            var(--secondText),
+            var(--primary),
+            var(--secondText),
+            var(--mainText));
+    background-size: 300% 100%;
+
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+
+    animation: gradientMove 5s ease-in-out infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0%;
+    }
+
+    50% {
+        background-position: 100%;
+    }
+
+    100% {
+        background-position: 0%;
+    }
 }
 
 .nexus-title p {
@@ -354,6 +386,7 @@ body {
     filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -442,6 +475,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
