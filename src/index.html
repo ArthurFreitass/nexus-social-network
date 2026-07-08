@@ -14,10 +14,15 @@
 </head>
 
 <body>
+    <script>
+        if (localStorage.getItem("Theme") === "light") {
+            document.body.classList.add("light-mode");
+        }
+    </script>
     <header class="header">
         <div class="logo">
             <a href="index.html" aria-label="Nexus - Página inicial">
-                <img src="./assets/img/Logo-tema-escuro.png" alt="Logotipo da Nexus">
+                <img src="./assets/img/logo_comtexto-removebg-preview.png" alt="Logotipo da Nexus">
             </a>
         </div>
 
@@ -33,7 +38,7 @@
                 <li><a href="./pages/login.html">Entrar</a></li>
                 <li><a href="./pages/register.html">Cadastrar</a></li>
                 <li><a href="./pages/about.html">Sobre</a></li>
-                <li id="theme"><img src="./assets/img/modo-escuro.png" alt="Theme"></li>
+                <li style="margin-left: 0.6rem;" id="theme"><img src="./assets/img/sun.png" alt="Mudar para o modo claro"></li>
             </ul>
         </nav>
     </header>
@@ -122,40 +127,7 @@
     <footer class="footer">
         <p>&copy; 2026 Nexus. Todos os direitos reservados.</p>
     </footer>
-    <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.nav');
-        const linksList = document.getElementById('links');
-
-        if (menuToggle && nav) {
-            menuToggle.addEventListener('click', () => {
-                const isOpen = nav.classList.toggle('nav-active');
-
-                menuToggle.setAttribute('aria-expanded', isOpen);
-                menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-
-                document.body.style.overflow = isOpen ? 'hidden' : '';
-            });
-
-            linksList?.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    nav.classList.remove('nav-active');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                    menuToggle.setAttribute('aria-label', 'Abrir menu');
-                    document.body.style.overflow = '';
-                }
-            });
-
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 768 && nav.classList.contains('nav-active')) {
-                    nav.classList.remove('nav-active');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                    menuToggle.setAttribute('aria-label', 'Abrir menu');
-                    document.body.style.overflow = '';
-                }
-            });
-        }
-    </script>
+    <script src="./assets/js/index.js"></script>
 </body>
 
 </html>

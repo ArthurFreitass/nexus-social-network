@@ -1,4 +1,6 @@
 :root {
+
+    /*Paleta de cores*/
     --background-main: #0D0B14;
     --superficie: #1E1B29;
     --border-separators: #312E41;
@@ -113,8 +115,15 @@ body {
 }
 
 .header .logo img {
-    width: clamp(120px, 15vw, 180px);
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
+    width: clamp(80px, 15vw, 130px);
     height: auto;
+    transition: filter var(--transition-fast);
+}
+
+.header .logo a:hover img,
+.header .logo a:focus-visible img {
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(120%) contrast(100%) drop-shadow(0 0 12px var(--primary));
 }
 
 .nav #links {
@@ -144,10 +153,19 @@ body {
 }
 
 .nav #theme {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
+}
+
+.nav #theme img {
     filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
+    transition: filter var(--transition-fast);
+}
+
+.nav #theme:hover img,
+.nav #theme:focus-visible img {
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(120%) contrast(100%) drop-shadow(0 0 12px var(--primary));
 }
 
 #links a:hover,
@@ -402,6 +420,50 @@ body {
     height: 2px;
     background: var(--secondText);
     transition: var(--transition-fast);
+}
+
+
+/* =========================================
+   TEMA CLARO (LIGHT MODE)
+========================================= */
+
+body.light-mode {
+    --background-main: var(--background); 
+    --superficie: var(--ligthSuperficie); 
+    --border-separators: var(--light-border-separators); 
+    --mainText: var(--light-main-text); 
+    --secondText: var(--second-light-text); 
+    --backMenu: var(--ligthSuperficie); 
+}
+
+body.light-mode .header .logo img,
+body.light-mode .nav #theme img,
+body.light-mode .card .icon img {
+    filter: none; 
+}
+
+/* Hover conjunto da Logo e do Ícone de Tema para o Tema Claro */
+body.light-mode .header .logo a:hover img,
+body.light-mode .header .logo a:focus-visible img,
+body.light-mode .nav #theme:hover img,
+body.light-mode .nav #theme:focus-visible img {
+    filter: drop-shadow(0 0 12px var(--primary));
+}
+
+body.light-mode .nexus-title h1 {
+    background: linear-gradient(90deg,
+        var(--light-main-text),
+        var(--primary),
+        var(--secundary),
+        var(--primary),
+        var(--light-main-text));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+body.light-mode .hamburger-line {
+    background: var(--light-main-text);
 }
 
 @media (max-width: 767px) {
