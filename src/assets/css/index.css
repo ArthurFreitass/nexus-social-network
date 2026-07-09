@@ -422,11 +422,6 @@ body {
     transition: var(--transition-fast);
 }
 
-
-/* =========================================
-   TEMA CLARO (LIGHT MODE)
-========================================= */
-
 body.light-mode {
     --background-main: var(--background); 
     --superficie: var(--ligthSuperficie); 
@@ -442,7 +437,6 @@ body.light-mode .card .icon img {
     filter: none; 
 }
 
-/* Hover conjunto da Logo e do Ícone de Tema para o Tema Claro */
 body.light-mode .header .logo a:hover img,
 body.light-mode .header .logo a:focus-visible img,
 body.light-mode .nav #theme:hover img,
