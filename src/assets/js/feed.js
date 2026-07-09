@@ -20,3 +20,14 @@ if (fullText.length > limit) {
     });
   }
 });
+
+// Novo Post
+const btnNewPost = document.getElementById("newPost")
+btnNewPost.addEventListener("click", addPost)
+
+function addPost(){
+    const postNew = document.getElementById("modalPost")
+    postNew.style.transition = "all ease 1s"
+
+    postNew.showModal();
+}
