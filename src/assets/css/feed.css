@@ -97,21 +97,24 @@ li{
 .card{
     padding-top: 2rem;
     width: 97vw;
-    height: 160vh;
+    height: auto;
     border: solid 4px #312E41;
     border-radius: 15px;
     margin: 2rem auto;
     background-color: var(--Cards);
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /*Parte de ícone e nome do usuário*/
 .photo-card{
     width: 36%;
-    height: 130vh;
+    height: auto;
     border: solid 3px white;
     border-radius: 2rem;
+    margin-bottom: 4rem;
 }
 
 .profile{
@@ -161,7 +164,6 @@ li{
 .post{
     background-color: var(--Bordas);
     height: 90vh;
-    border: solid 2px white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,7 +177,6 @@ li{
 /*Icones de likes e comentários*/
 .likes{
     height: 8vh;
-    border: solid 2px white;
     display: flex;
     align-items: center;
     
@@ -207,16 +208,54 @@ li{
 
 /*Descrição e comentários*/
 .comments{
-    height: 24vh;
-    border: solid 2px white;
+    height: auto;
 }
 
 .description{
-    height: 13vh;
-    border: solid white 2px;
+    display: flex;
+    height: auto;
+    color: var(--Texto-Principal);
 }
 
-.commentsPeople{
-    height: 11vh;
-    border: solid white 2px;
+.description-name{
+    padding-top: 1rem;
+    padding-left: 1rem;
 }
+
+.description-text{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+}
+
+.view-more-btn {
+    color: #aaa;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.view-more-btn:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+
+/*Novo post*/
+.newPost{
+    color: var(--Texto-Principal);
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 1rem;
+    border: solid 2px white;
+}
+
+.newPost img{
+    height: 100%;
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
+}
+
+
