@@ -1,0 +1,100 @@
+:root {
+    /*Paleta de cores*/
+    --background-main: #0D0B14;
+    --superficie: #1E1B29;
+    --border-separators: #312E41;
+    --mainText: #F5F3FF;
+    --secondText: #A78BFA;
+    --primary: #BD34FE;
+    --secundary: #6D28D9;
+    --backMenu: #1E1B29;
+    --background: #F9F8FF;
+    --ligthSuperficie: #FFFFFF;
+    --light-border-separators: #E4E2F1;
+    --light-main-text: #130F26;
+    --second-light-text: #6D6A80;
+    --primary-hover: #d15bff;
+    --primary-rgb: 189, 52, 254;
+    --font-family: "Inter", sans-serif;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--light-main-text);
+    font-family: 'Inter', sans-serif;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.logo {
+    padding-left: 2rem;
+    width: 40%;
+}
+
+.logo img {
+    text-align: center;
+    width: 120px;
+    height: auto;
+}
+
+
+.nav {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 4rem;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+#links {
+    display: flex;
+    align-items: center;
+}
+
+#links img {
+    cursor: pointer;
+    display: inline;
+    width: 20px;
+    margin-right: 1rem;
+}
+
+#links a {
+    font-size: 23px;
+}
+
+.nav #theme {
+    cursor: pointer;
+}
+
+#theme img {
+    width: 30px;
+    height: auto;
+}
