@@ -4,8 +4,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assents/css/global.css">
-    <link rel="stylesheet" href="/assents/css/feed.css">
+    <link rel="stylesheet" href="/src/assets/css/global.css">
+    <link rel="stylesheet" href="/src/assets/css/feed.css">
     <link rel="shortcut icon" href="/assents/img/Ícone-logo.png" type="image/x-icon">
     <title>Nexus | Feed</title>
 
@@ -49,21 +49,21 @@
                     </div>
 
                     <div class="nameProfile">
-                        <p> Nexus </p> <img id="verificar" src="/assents/img/Verificado.png" alt="">
+                        <p> Nexus </p> <img id="verificar" src="/src/assets/img/Verificado.png" alt="">
                     </div>
                     
                 </div>
 
                 <div class="post">
 
-                    <img class="photos" src="/assents/img/Design sem nome.png" alt="">
+                    <img class="photos" src="/src/assets/img/Design sem nome.png" alt="">
 
                 </div>
 
                 <div class="likes">
 
                     <div class="icons">
-                        <img src="/assents/img/coracao-sem-like.png" alt="">
+                        <img src="/src/assets/img/coracao-sem-like.png" alt="">
                     </div>
 
                     <div class="contador">
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="icons">
-                        <img src="/assents/img/cometarios.png" alt="">
+                        <img src="/src/assets/img/cometarios.png" alt="">
                     </div>
 
                     <div class="contador">
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="icons">
-                        <img src="/assents/img/salvar-post.png" alt="">
+                        <img src="/src/assets/img/salvar-post.png" alt="">
                     </div>
                     
                 </div>
@@ -113,19 +113,19 @@
                     </div>
 
                     <div class="nameProfile">
-                        <p> Nexus </p> <img id="verificar" src="/assents/img/Verificado.png" alt="">
+                        <p> Nexus </p> <img id="verificar" src="/src/assets/img/Verificado.png" alt="">
                     </div>
                     
                 </div>
 
                 <div class="post">
-                    <img class="photos" src="/assents/img/post-1.jpg" alt="">
+                    <img class="photos" src="/src/assets/img/post-1.jpg" alt="">
                 </div>
 
                 <div class="likes">
 
                     <div class="icons">
-                        <img src="/assents/img/coracao-sem-like.png" alt="">
+                        <img src="/src/assets/img/coracao-sem-like.png" alt="">
                     </div>
 
                     <div class="contador">
@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="icons">
-                        <img src="/assents/img/cometarios.png" alt="">
+                        <img src="/src/assets/img/cometarios.png" alt="">
                     </div>
 
                     <div class="contador">
@@ -141,7 +141,7 @@
                     </div>
 
                     <div class="icons">
-                        <img src="/assents/img/salvar-post.png" alt="">
+                        <img src="/src/assets/img/salvar-post.png" alt="">
                     </div>
 
                 </div>
@@ -170,11 +170,30 @@
         </div>
 
         <div class="newPost">
-            <img src="/assents/img/mais.png" alt="">
+            <span id="newPost">
+                <img src="/src/assets/img/mais.png" alt="">
+                <p> <strong> Novo Post </strong></p>
+            </span>
         </div>
+
+        <dialog id="modalPost">
+            
+            <div class="uploadMusic">
+                <input type="file" accept="audiu/" name="" id="upMusic">
+            </div>
+
+            <div class="uploadPhoto">
+                <input type="file" name="" id="upPhoto">
+            </div>
+
+            <div class="creationDescription">
+                <p>dasdadsd</p>
+            </div>
+            
+        </dialog>
 
     </main>
     
 </body>
-    <script src="/assents/js/feed.js"></script>
+    <script src="/src/assets/js/feed.js"></script>
 </html>
