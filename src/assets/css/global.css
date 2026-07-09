@@ -1,0 +1,31 @@
+/*Linkem o global.css acima do css de vcs*/
+
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes fade-out-up {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
+::view-transition-old(root) {
+  animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-out-up;
+}
+
+::view-transition-new(root) {
+  animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-in-up;
+}
