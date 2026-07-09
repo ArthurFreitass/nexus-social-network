@@ -243,19 +243,105 @@ li{
 
 /*Novo post*/
 .newPost{
-    color: var(--Texto-Principal);
-    height: 30vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    margin-top: 1rem;
-    border: solid 2px white;
 }
 
-.newPost img{
-    height: 100%;
+#newPost{
+    color: var(--Texto-Principal);
+    height: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    font-size: 1.5rem;
+    transition: all 1s ease;
+}
+
+#newPost:hover{
+    cursor: pointer;
+    transform: scale(107%);
+}
+
+#newPost img{
+    height: 80%;
+    padding-right: 1rem;
     filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
+}
+
+
+/*Modal add post*/
+#modalPost:not([open]) {
+    display: none;
+}
+#modalPost{
+    background-color: var(--Fundo-Preto);
+    color: var(--Texto-Principal);
+    margin: auto;
+    height: 80vh;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    animation: entrarModal 0.3s ease-out forwards;
+}
+
+#modalPost[open]::backdrop {
+    background-color: rgba(13, 11, 20, 0.75);
+    backdrop-filter: blur(4px);
+    animation: entrarFundo 0.3s ease-out forwards;
+}
+
+@keyframes entrarModal {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(-10px); 
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);        /* Termina no tamanho e posição normais */
+    }
+}
+
+@keyframes entrarFundo {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/*Acabou*/
+
+.uploadMusic{
+    height: 15vh;
+    display: flex;
+    width: auto;
+    margin: 1rem 1rem 0.2rem 1rem;
+}
+#upMusic{
+    display: flex;
+    height: auto;
+    width: 100%;
+    border: solid white 2px;
+}
+
+.uploadPhoto{
+    display: flex;
+    width: auto;
+    height: 40vh;
+    margin: 1rem 1rem 0.2rem 1rem;
+}
+#upPhoto{
+    display: flex;
+    height: auto;
+    width: 100%;
+    border: solid white 2px;
+}
+
+.creationDescription{
+    height: 25vh;
 }
 
 
