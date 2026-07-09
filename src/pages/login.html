@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Entre na sua conta Nexus para acessar seu feed, publicações e conexões.">
     <title>Nexus | Entrar</title>
-    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
@@ -15,10 +16,11 @@
 
     <div class="login-page">
 
-
+        <a href="index.html" class="back-link">
+            <span aria-hidden="true">←</span> Voltar para o início
+        </a>
         <aside class="brand-panel">
             <div class="brand-content">
-                <img src="/img/Logo-tema-escuro.png" alt="" width="200px">
                 <h1>Conecte-se à sua rede.</h1>
                 <p>Compartilhe ideias, publique momentos e construa conexões reais dentro da Nexus.</p>
             </div>
@@ -29,14 +31,14 @@
 
                 <div class="form-header">
                     <h2>Entrar</h2>
-                    <p class="subtitle">Bem-vindo de volta Nexus! Insira seus dados para continuar.</p>
+                    <p class="subtitle">Bem-vindo de volta! Insira seus dados para continuar.</p>
                 </div>
 
                 <form id="loginForm" class="login-form" novalidate>
 
                     <div class="form-group">
                         <label for="email">E-mail ou usuário</label>
-                        <input type="text" id="email" name="email" placeholder="seuemail@exemplo.com" required>
+                        <input type="text" id="email" name="email" placeholder="Email" required>
                         <span class="error-message" id="emailError"></span>
                     </div>
 
@@ -69,9 +71,5 @@
         </main>
 
     </div>
-
-
-
 </body>
-
 </html>
