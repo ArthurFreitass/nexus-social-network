@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus | Sobre nós</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/about.css">
@@ -12,18 +13,190 @@
 </head>
 
 <body>
+    <script>
+        if (localStorage.getItem("Theme") === "light") {
+            document.body.classList.add("light-mode");
+        }
+    </script>
     <header class="header">
         <div class="logo">
             <a href="../index.html" aria-label="Nexus | Página inicial">
-                <img src="../assets/img/logo_comtexto-removebg-preview.png" alt="Nexus logo Icon">
+                <img src="../assets/img/logo_comtexto-removebg-preview.png" alt="Logo da Nexus">
             </a>
         </div>
+
+        <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
         <nav class="nav">
-            <span id="links"><a href="../index.html"> <img src="../assets/img/arrow.png" alt="Button for comeback home">
-                    Início</a></span>
-            <span id="theme"><img src="../assets/img/lua.png" alt="Alterar para tema escuro"></span>
+            <span id="links">
+                <a href="../index.html">
+                    <img src="../assets/img/arrow.png" alt="Voltar para a página inicial">
+                    Início
+                </a>
+            </span>
+
+            <span id="theme">
+                <img src="../assets/img/lua.png" alt="Alterar tema">
+            </span>
         </nav>
     </header>
+
+    <main class="main-container">
+
+        <section class="main">
+
+            <h1>Sobre a Nexus</h1>
+
+            <p>
+                Mais do que uma rede social, a Nexus é um espaço criado para conectar pessoas,
+                compartilhar ideias e preservar momentos importantes de forma simples, organizada
+                e respeitosa.
+            </p>
+
+        </section>
+
+        <section class="history">
+
+            <h2>Nossa História</h2>
+
+            <p>
+                A Nexus nasceu da ideia de desenvolver uma plataforma onde qualquer pessoa pudesse
+                registrar acontecimentos importantes da sua vida e compartilhar experiências com
+                outras pessoas de maneira prática.
+            </p>
+
+            <p>
+                Desde o início, nosso objetivo sempre foi criar um ambiente leve, intuitivo e
+                acessível, permitindo que os usuários publiquem conteúdos compostos por título,
+                imagem e descrição, registrando momentos especiais e construindo sua própria
+                trajetória dentro da plataforma.
+            </p>
+
+            <p>
+                Acreditamos que cada publicação representa uma lembrança, uma conquista ou uma
+                história que merece ser preservada. Por isso, desenvolvemos uma rede social focada
+                em conexões autênticas, onde o respeito entre as pessoas é um dos principais
+                pilares da comunidade.
+            </p>
+
+        </section>
+
+        <section style="margin-top: 2.3rem;" class="values">
+
+            <h2>Nossos Valores</h2>
+
+            <div class="cards">
+
+                <article class="card">
+                    <h3>Respeito</h3>
+
+                    <p>
+                        Incentivamos uma comunidade saudável, onde todas as pessoas possam se
+                        expressar com responsabilidade e educação.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Conexão</h3>
+
+                    <p>
+                        Aproximamos pessoas por meio de histórias, interesses e experiências
+                        compartilhadas.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Simplicidade</h3>
+
+                    <p>
+                        Desenvolvemos uma plataforma intuitiva para que o foco esteja sempre nas
+                        pessoas e em suas publicações.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Segurança</h3>
+
+                    <p>
+                        Valorizamos a privacidade dos usuários e buscamos oferecer um ambiente
+                        confiável para todos.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+        <section style="margin-top: 2.5rem;" class="rights">
+
+            <h2>Seus Direitos</h2>
+
+            <p>
+                A Nexus respeita a privacidade dos usuários e reconhece a importância da proteção
+                de dados pessoais. Nosso compromisso é seguir os princípios estabelecidos pela Lei
+                Geral de Proteção de Dados (LGPD), garantindo transparência e responsabilidade no
+                tratamento das informações.
+            </p>
+
+            <p>
+                Você pode conhecer mais sobre a LGPD através do portal oficial do Governo Federal.
+            </p>
+
+            <a class="btn btn-primary" href="https://www.gov.br/esporte/pt-br/acesso-a-informacao/lgpd" target="_blank">
+                Saiba mais sobre a LGPD
+            </a>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <div>
+                <h3>Nexus</h3>
+
+                <p>
+                    Conectando pessoas, compartilhando histórias e registrando momentos desde 2026.
+                </p>
+            </div>
+
+            <div>
+
+                <h3>Contato</h3>
+
+                <p>Email: contato@nexus.com.br</p>
+                <p>Telefone: (31) 3333-2026</p>
+
+            </div>
+
+            <div>
+
+                <h3>Carreiras</h3>
+
+                <p>
+                    Quer construir o futuro da Nexus?
+                </p>
+
+                <a href="#">Trabalhe Conosco</a>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p>&copy; 2026 Nexus. Todos os direitos reservados.</p>
+
+    </footer>
+
+    <script src="../assets/js/about.js"></script>
+
 </body>
 
 </html>
