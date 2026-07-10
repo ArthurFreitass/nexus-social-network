@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/feed.css">
-    <link rel="shortcut icon" href="/assents/img/Ícone-logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/src/assets/img/logo-icon.png" type="image/x-icon">
     <title>Nexus | Feed</title>
 
 </head>
@@ -16,7 +16,7 @@
     <header>
 
         <div class="img">
-            <img id="img" src="/assents/img/Logo-tema-escuro.png" alt="">
+            <img id="img" src="/src/assets/img/logo_comtexto-removebg-preview.png" alt="">
         </div>
 
         <div class="highlights">
@@ -44,7 +44,7 @@
 
                     <div class="photoProfile">
 
-                        <img id="photoProfile" src="/assents/img/Logo-tema-escuro.png" alt="">
+                        <img id="photoProfile" src="/src/assets/img/logo_semtexto.png" alt="">
 
                     </div>
 
@@ -109,7 +109,7 @@
 
                 <div class="profile">
                      <div class="photoProfile">
-                        <img id="photoProfile" src="/assents/img/Logo-tema-escuro.png" alt="">
+                        <img id="photoProfile" src="/src/assets/img/logo_semtexto.png" alt="">
                     </div>
 
                     <div class="nameProfile">
@@ -177,17 +177,26 @@
         </div>
 
         <dialog id="modalPost">
-            
+    
             <div class="uploadMusic">
-                <input type="file" accept="audiu/" name="" id="upMusic">
+                <label for="upMusic" class="custom-file-upload" id="labelMusic">Selecionar Áudio</label>
+                <input type="file" accept="audio/*" id="upMusic" style="display: none;">
             </div>
 
             <div class="uploadPhoto">
-                <input type="file" name="" id="upPhoto">
+                <label for="upPhoto" class="custom-file-upload" id="labelPhoto">Selecionar Foto</label>
+                <input type="file" accept="image/*" id="upPhoto" style="display: none;">
             </div>
 
             <div class="creationDescription">
-                <p>dasdadsd</p>
+
+                <div class="inputDescription">
+                    <label id="labelDescription" for="textInput" >Sua descrição aqui</label>
+                    <input type="text" name="" id="textInput" placeholder="Escreva seus pensamentos">
+                </div>
+
+                <button id="btnPhoto">Enviar</button>
+
             </div>
             
         </dialog>
