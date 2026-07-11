@@ -15,61 +15,88 @@
     --Roxo-S:#6D28D9;
 }
 
+html{
+    /* evita "zoom" estranho de fonte no iOS quando o celular gira */
+    -webkit-text-size-adjust: 100%;
+}
+
 body{
     background-color: var(--Fundo-Preto);
     font-family: "Inter", sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
+img{
+    max-width: 100%;
+    display: block;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
 header{
     background-color: var(--Cards);
-    height: 15vh;
+    height: auto;
+    min-height: 4.5rem;
     width: auto;
     border: solid 7px #312E41;
     border-radius: 15px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem clamp(0.75rem, 3vw, 2rem);
+    margin: 0.5rem;
 }
 
 .img{
-    width: 11rem;
-    height: 15vh;
-    margin-left: 2rem
+    width: auto;
+    height: auto;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
 }
 
 #img{
-    width: 6rem;
+    width: clamp(3.2rem, 7vw, 6rem);
     height: auto;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
 .highlights{
-    width: 22rem;
-    margin-left: 6rem;
+    width: auto;
+    margin-left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    order: 3;
+    flex: 1 1 100%;
 }
 
 .top{
-    font-size: 1.5rem;
-    padding: 1.5rem;
+    font-size: clamp(0.85rem, 2vw, 1.5rem);
+    padding: clamp(0.5rem, 1.5vw, 1.5rem);
     text-decoration: none;
     color: var(--Roxo-P);
     transition: all 0.5s ease;
+    white-space: nowrap;
 }
 .top:hover{
     transform: translateY(-3.5px) scale(105%);
 }
 
 #separacao{
-    font-size: 2rem;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
     color: var(--Roxo-S);
 }
 
 nav{
-    margin-right: 2rem;
-    width: 20rem;
+    margin-right: 0;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,6 +104,8 @@ nav{
 
 ul{
     list-style: none;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 li{
@@ -85,47 +114,72 @@ li{
 
 .list{
     display: inline-block;
-    font-size: 1.5rem;
-    padding: 1.5rem;
+    font-size: clamp(0.85rem, 2vw, 1.5rem);
+    padding: clamp(0.5rem, 1.5vw, 1.5rem);
     text-decoration: none;
     color: var(--Texto-Principal);
     transition: all ease 0.5s;
+    white-space: nowrap;
 }
 .list:hover{
     transform: translateY(-3.5px) scale(105%);
 }
 
+     
+@media (min-width: 700px){
+    header{
+        flex-wrap: nowrap;
+        height: clamp(4.5rem, 12vh, 6.5rem);
+    }
+    .highlights{
+        order: 0;
+        flex: 0 1 auto;
+        margin-left: clamp(1rem, 5vw, 6rem);
+    }
+}
+
+/* =========================================
+   FEED / CARD
+   ========================================= */
+main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .card{
-    padding-top: 2rem;
-    width: 97vw;
+    padding: clamp(1rem, 3vw, 2rem) clamp(0.5rem, 2vw, 1rem);
+    width: min(97vw, 1600px);
     height: auto;
     border: solid 4px #312E41;
     border-radius: 15px;
-    margin: 2rem auto;
+    margin: 1rem auto;
     background-color: var(--Cards);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 3vw, 3rem);
 }
 
-/*Parte de ícone e nome do usuário*/
 .photo-card{
-    width: 36%;
+    width: min(94vw, 480px);
     height: auto;
     border: solid 3px white;
-    border-radius: 2rem;
-    margin-bottom: 4rem;
+    border-radius: 1.5rem;
+    margin-bottom: 0;
+    overflow: hidden;
 }
 
 .profile{
-    height: 8vh;
+    height: auto;
+    min-height: 3.5rem;
     display: flex;
     align-items: center;
     color: var(--Texto-Secundário);
-    padding-left: 1rem;
-    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
 
 .nameProfile{
@@ -139,11 +193,12 @@ li{
 }
 
 .photoProfile{
-    height: 6vh;
-    width: 3vw;
+    height: clamp(2.6rem, 8vw, 3.2rem);
+    width: clamp(2.6rem, 8vw, 3.2rem);
+    flex-shrink: 0;
     border: solid 2px #6D28D9;
     border-radius: 50%;
-    margin-right: 20px;
+    margin-right: 16px;
     overflow: hidden;
 }
 #photoProfile{
@@ -155,41 +210,46 @@ li{
     cursor: pointer;
 }
 #verificar{
-    height:4.5vh;
+    height: clamp(1.3rem, 3.5vw, 1.8rem);
     width: auto;
     margin-left: 5px;
 }
 
-/*Parte de posts*/
+
+/* Parte de posts */
 .post{
     background-color: var(--Bordas);
-    height: 90vh;
+    height: auto;
+    aspect-ratio: 1 / 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .photos{
-    width: 98%;
-    height: 98%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/*Icones de likes e comentários*/
+/* Icones de likes e comentários */
 .likes{
-    height: 8vh;
+    height: auto;
     display: flex;
     align-items: center;
-    
+    padding: 0.6rem 0.75rem;
+    flex-wrap: wrap;
 }
 .likes img{
     height: 100%;
-    width: 100%;
+    width: auto;
     filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
 .icons{
-    height: 5vh;
-    padding-left: 1.5rem;
+    height: clamp(1.6rem, 5vw, 2.2rem);
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
     transition: all 0.3s ease;
 }
 .icons:hover{
@@ -202,30 +262,41 @@ li{
 }
 
 .num{
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     color: white;
 }
 
-/*Descrição e comentários*/
+#save{
+    margin-left: auto;
+    padding-left: 0;
+}
+
+/* Descrição e comentários */
 .comments{
     height: auto;
 }
 
 .description{
     display: flex;
+    flex-wrap: wrap;
     height: auto;
     color: var(--Texto-Principal);
+    padding: 0 0.5rem;
 }
 
 .description-name{
     padding-top: 1rem;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
+    flex-shrink: 0;
 }
 
 .description-text{
     padding-top: 1rem;
     padding-bottom: 1rem;
-    padding-right: 1rem;
+    padding-right: 0.5rem;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
+    word-break: break-word;
+    flex: 1 1 200px;
 }
 
 .view-more-btn {
@@ -241,22 +312,24 @@ li{
 }
 
 
-/*Novo post*/
+/* Novo post */
 .newPost{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 #newPost{
     color: var(--Texto-Principal);
-    height: 12vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
     margin-bottom: 3rem;
-    font-size: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: clamp(1rem, 2.8vw, 1.5rem);
     transition: all 1s ease;
 }
 
@@ -266,13 +339,16 @@ li{
 }
 
 #newPost img{
-    height: 80%;
+    height: clamp(1.5rem, 4vw, 2rem);
+    width: auto;
     padding-right: 1rem;
     filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
 
-/*Modal add post*/
+/* =========================================
+   MODAL ADD POST
+   ========================================= */
 
 #modalPost:not([open]) {
     display: none;
@@ -281,13 +357,41 @@ li{
     background-color: var(--Fundo-Preto);
     color: var(--Texto-Principal);
     margin: auto;
-    height: 80vh;
-    width: 50vw;
+    height: auto;
+    max-height: min(92vh, 700px);
+    width: min(95vw, 820px);
+    max-width: 96vw;
     display: flex;
     flex-direction: column;
     animation: entrarModal 0.3s ease-out forwards;
     border: solid #BD34FE 2px;
-    border-radius: 25px;
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.modalBody{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    flex: 1;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    padding: 0.5rem clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.modalSide{
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+/* Em telas estreitas, a foto fica em cima e o restante embaixo */
+@media (max-width: 650px){
+    .modalBody{
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 #modalPost[open]::backdrop {
@@ -303,7 +407,7 @@ li{
     }
     to {
         opacity: 1;
-        transform: scale(1) translateY(0);        /* Termina no tamanho e posição normais */
+        transform: scale(1) translateY(0);
     }
 }
 
@@ -316,24 +420,32 @@ li{
     }
 }
 
+#modalTitle{
+    color: var(--Texto-Principal);
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    font-weight: 600;
+    text-align: center;
+    padding: clamp(0.75rem, 3vw, 1.25rem) 1rem 0.25rem 1rem;
+}
+
 /* Estilização do input file */
 .uploadMusic input[type="file"], 
 .uploadPhoto input[type="file"] {
-  border-radius: 12px;
-  color: #a78bfa;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 28px 10px; 
-  box-sizing: border-box;
-  transition: all 0.3s ease;
+    border-radius: 12px;
+    color: #a78bfa;
+    cursor: pointer;
+    font-size: clamp(12px, 2.5vw, 14px);
+    padding: clamp(14px, 4vw, 28px) 10px; 
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 .uploadMusic input[type="file"]:hover, 
 .uploadPhoto input[type="file"]:hover {
-  background-color: #1e1b2e;
-  border-color: #c084fc;
-  box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
+    background-color: #1e1b2e;
+    border-color: #c084fc;
+    box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
 }
-/* Especificamente o btn dentro  */
 .uploadMusic input[type="file"]::file-selector-button,
 .uploadPhoto input[type="file"]::file-selector-button {
   background: #a78bfa;
@@ -352,18 +464,54 @@ li{
 #upPhoto::file-selector-button {
   content: "Selecionar Foto";
 }
-/*Acabou*/
+/* Acabou */
 
+.dropzonePhoto{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.dropzonePhoto img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    z-index: 1; 
+    border-radius: 10px;
+}
+
+.dropzoneMusic{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 20px;
+}
+.dropzoneMusic audio{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    z-index: 1; 
+    border-radius: 20px;
+}
 
 .uploadMusic{
-    height: 15vh;
+    height: clamp(60px, 10vh, 90px);
     display: flex;
-    width: auto;
-    margin: 1rem 1rem 0.2rem 1rem;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+    margin: 0;
     border: solid white 2px;
     border-radius: 10px;
-    line-height: 56px;      
-    text-align: center;     
+    line-height: normal;
+    text-align: center;
 }
 #upMusic{
     display: flex;
@@ -371,16 +519,27 @@ li{
     width: 100%;
 }
 
+.musicModal{
+    width: 100%;   
+    height: 100%;       
+    max-width: 400px;     
+    border-radius: 8px;   
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+    filter: invert(1) hue-rotate(180deg);
+}
+
 .uploadPhoto{
     display: flex;
-    width: auto;
-    height: 38vh;
-    margin: 1rem 1rem 0.2rem 1rem;
+    width: 100%;
+    height: 61vh;
+    aspect-ratio: 1 / 1;
+    margin: 0;
     border: solid white 2px;
     border-radius: 10px;
-    line-height: 56px;      
-    text-align: center;  
+    line-height: normal;
+    text-align: center;
 }
+
 #upPhoto{
     display: flex;
     height: auto;
@@ -388,8 +547,13 @@ li{
 }
 
 .custom-file-upload{
+    z-index: 2;
     width: 99%;
     height: 99%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
 }
 
 .custom-file-upload:hover {
@@ -397,6 +561,8 @@ li{
     background-color: #1e1b2e;
     border-color: #c084fc;
     box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 .custom-file-upload.active{
@@ -407,52 +573,98 @@ li{
 }
 
 .creationDescription{
-    height: 25vh;
+    height: auto;
+    min-height: 0;
+    flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: column;
     border: solid white 2px;
     border-radius: 10px;
-    margin: 0.5rem 1rem 0.7rem 1rem;
+    margin: 0;
+    padding: 0.75rem 0;
 }
 
 .inputDescription{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     width: 90%;
 }
 #labelDescription{
     margin-top: 0.5rem;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
 }
 #textInput{
-    height: 25%;
+    height: 2.6rem;
     margin-top: 1rem;
     border: solid 2px white;
     border-radius: 12px;
     transition: all 0.5s ease;
     padding-left: 0.5rem;
+    width: 100%;
+    color: var(--Texto-Principal);
+    background-color: transparent;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
 }
 #textInput:focus{
     border-color: #BD34FE;
     outline: none;
 }
 #btnPhoto{
-    width: 10vw;
-    height: 6dvh;
+    width: clamp(120px, 30vw, 180px);
+    height: 44px;
     margin-bottom: 10px;
     border: solid 2px white;
     border-radius: 10px;
     background-color: var(--Roxo-S);
     color: var(--Texto-Principal);  
-    transition: all 1s ease;  
+    transition: all 0.3s ease;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
 }
 #btnPhoto:hover{
     cursor: pointer;
     transform: scale(104%) translateY(-2px);
     box-shadow: 2px 2px 5px white;
-    height: 6vh;
 }
 
 
+
+
+/* =========================================
+   AJUSTES FINOS PARA CELULARES BEM PEQUENOS
+   ========================================= */
+@media (max-width: 400px){
+    header{
+        border-width: 4px;
+        border-radius: 10px;
+    }
+    .card{
+        border-width: 2px;
+        border-radius: 10px;
+        padding: 0.75rem 0.4rem;
+    }
+    .photo-card{
+        border-width: 2px;
+        border-radius: 1rem;
+    }
+    .description{
+        padding: 0 0.25rem;
+    }
+}
+
+/* =========================================
+   TELAS GRANDES / MONITORES ULTRAWIDE
+   Mantém o feed com múltiplas colunas em vez de
+   esticar um único post gigante
+   ========================================= */
+@media (min-width: 1600px){
+    .card{
+        width: min(90vw, 1800px);
+        gap: 3.5rem;
+    }
+    .photo-card{
+        width: 520px;
+    }
+}
