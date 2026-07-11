@@ -78,7 +78,7 @@
                         <p class="num">0</p>
                     </div>
 
-                    <div class="icons">
+                    <div class="icons" id="save">
                         <img src="/src/assets/img/salvar-post.png" alt="">
                     </div>
                     
@@ -140,7 +140,7 @@
                         <p class="num">0</p>
                     </div>
 
-                    <div class="icons">
+                    <div class="icons" id="save">
                         <img src="/src/assets/img/salvar-post.png" alt="">
                     </div>
 
@@ -177,28 +177,46 @@
         </div>
 
         <dialog id="modalPost">
-    
-            <div class="uploadMusic">
-                <label for="upMusic" class="custom-file-upload" id="labelMusic">Selecionar Áudio</label>
-                <input type="file" accept="audio/*" id="upMusic" style="display: none;">
-            </div>
 
-            <div class="uploadPhoto">
-                <label for="upPhoto" class="custom-file-upload" id="labelPhoto">Selecionar Foto</label>
-                <input type="file" accept="image/*" id="upPhoto" style="display: none;">
-            </div>
+            <h2 id="modalTitle">Novo post</h2>
 
-            <div class="creationDescription">
+            <div class="modalBody">
 
-                <div class="inputDescription">
-                    <label id="labelDescription" for="textInput" >Sua descrição aqui</label>
-                    <input type="text" name="" id="textInput" placeholder="Escreva seus pensamentos">
+                <div class="uploadPhoto">
+
+                    <div class="dropzonePhoto">
+                        <label for="upPhoto" class="custom-file-upload" id="labelPhoto">Selecionar Foto</label>
+                        <input type="file" accept="image/*" id="upPhoto" style="display: none;">
+                    </div>
+
                 </div>
 
-                <button id="btnPhoto">Enviar</button>
+                <div class="modalSide">
+
+                    <div class="uploadMusic">
+
+                        <div class="dropzoneMusic">
+                            <label for="upMusic" class="custom-file-upload" id="labelMusic">Selecionar Áudio</label>
+                            <input type="file" accept="audio/*" id="upMusic" style="display: none;">
+                        </div>
+                        
+                    </div>
+
+                    <div class="creationDescription">
+
+                        <div class="inputDescription">
+                            <label id="labelDescription" for="textInput" >Sua descrição aqui</label>
+                            <input type="text" name="" id="textInput" placeholder="Escreva seus pensamentos">
+                        </div>
+
+                        <button id="btnPhoto">Enviar</button>
+
+                    </div>
+
+                </div>
 
             </div>
-            
+
         </dialog>
 
     </main>
