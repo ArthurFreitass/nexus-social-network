@@ -22,12 +22,12 @@ if (fullText.length > limit) {
 });
 
 
-// Novo Post
+///////////////////////////////////  Novo Post  /////////////////////////////////////////////////////
 const btnNewPost = document.getElementById("newPost")
+const postNew = document.getElementById("modalPost");
 btnNewPost.addEventListener("click", addPost)
 
 function addPost(){
-    const postNew = document.getElementById("modalPost")
     postNew.style.transition = "all ease 1s"
 
     postNew.addEventListener('click', (event) => {
@@ -48,9 +48,50 @@ function addPost(){
 
     postNew.showModal();
 }
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////  Curtida  ////////////////////////////////////////////////
+const main = document.querySelector(".card");
+
+main.addEventListener("click", e => {
+    if(e.target.classList.contains("like")){
+        const like = e.target;
+        
+        const blocoLikes = like.closest(".likes");
+        const likeCounter = blocoLikes.querySelector(".likeCounter");
+
+        let contadorLike = Number(likeCounter.innerText);
+
+        if(like.src.includes("coracao-com-like.png")){
+            like.src = "/src/assets/img/coracao-sem-like.png";
+            contadorLike--;
+        } else {
+            like.src = "/src/assets/img/coracao-com-like.png";
+            contadorLike++;
+        }
+        
+        likeCounter.innerText = contadorLike;
+
+    }
+});
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/////////////   MUSIC  /////////////////////
+/////////////////////////////////// Comentários /////////////////////////////////////////////////////////
+const commentsClick = document.querySelectorAll(".commentsClick");
+const commentsCounter = document.querySelectorAll(".commentsCounter");
+const commentsModal = document.querySelectorAll(".modalComments");
+let contadorComent = 0;
+
+for(let i = 0 ; i < commentsClick.length ; i++){
+    commentsClick[i].addEventListener("click", e => {
+
+        commentsModal[i].showModal();
+
+    })
+}
+
+///////////////////////////////////   MUSIC  /////////////////////////////////////////////
 const inputM = document.getElementById("upMusic");
 inputM.addEventListener("change", FMusic);
 
@@ -115,7 +156,7 @@ function onLeaveMusic(){
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-//Imagem
+//////////////////////////////////////////// Imagem ///////////////////////////////////////////////////
 
 const labelPhoto = document.getElementById("labelPhoto");
 labelPhoto.addEventListener("dragenter", onEnterPhoto);
@@ -176,9 +217,31 @@ function FPhoto(){
         const createImage = document.createElement("img");
         createImage.classList.add("photos")
         createImage.src = URL.createObjectURL(inputP.files[0]);
+        newURL = createImage.src
 
         dropzone.append(createImage);
-        console.log(createImage);
 
     }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////  POST  ////////////////////////////////////////////////
+const btnPost = document.getElementById("btnPhoto");
+const card = document.querySelector(".card");
+let newURL;
+
+btnPost.addEventListener("click", postar);
+
+function postar(){
+    const cardModel = document.querySelector(".photo-card");
+    const newCard = cardModel.cloneNode(true);
+    const newPhoto = newCard.querySelector(".photos");
+    newPhoto.src = newURL;
+
+    card.appendChild(newCard);
+
+    dropzone.innerHTML = "";
+
+    postNew.close();
 }
