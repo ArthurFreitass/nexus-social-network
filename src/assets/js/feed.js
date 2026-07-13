@@ -162,7 +162,8 @@ const labelPhoto = document.getElementById("labelPhoto");
 labelPhoto.addEventListener("dragenter", onEnterPhoto);
 labelPhoto.addEventListener("drop", e => {
     e.preventDefault(); // Impede o navegador de tentar abrir o áudio/imagem na aba
-    onLeavePhoto();    
+    onLeavePhoto();
+       
 
     // Pega o arquivo que foi arrastado e solto ali dentro
     const arquivos = e.dataTransfer.files;
@@ -182,6 +183,8 @@ labelPhoto.addEventListener("drop", e => {
         createImage.src = URL.createObjectURL(arquivo);
 
         dropzone.append(createImage);
+
+        newURL = createImage.src;
 }});
 
 // Para aceitar que faça a verificação
@@ -221,7 +224,7 @@ function FPhoto(){
 
         dropzone.append(createImage);
 
-    }
+    } 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -235,6 +238,7 @@ btnPost.addEventListener("click", postar);
 
 function postar(){
     const cardModel = document.querySelector(".photo-card");
+    const clearPhoto = document.getElementById("upPhoto")
     const newCard = cardModel.cloneNode(true);
     const newPhoto = newCard.querySelector(".photos");
     const newLikes = newCard.querySelector(".like")
@@ -270,7 +274,12 @@ function postar(){
 
     card.appendChild(newCard);
 
-    dropzone.innerHTML = "";
+    inputDescription.value = "";
+    const previewImg = dropzone.querySelector("img.photos");
+    if (previewImg) {
+        previewImg.remove();
+    }
 
     postNew.close();
+
 }
