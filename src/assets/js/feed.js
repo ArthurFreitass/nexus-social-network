@@ -237,7 +237,36 @@ function postar(){
     const cardModel = document.querySelector(".photo-card");
     const newCard = cardModel.cloneNode(true);
     const newPhoto = newCard.querySelector(".photos");
+    const newLikes = newCard.querySelector(".like")
+    let couter = newCard.querySelector(".likeCounter");
+    const inputDescription = document.getElementById("textInput");
+    let newcomments = newCard.querySelector(".description-text");
+
+    newcomments.innerText = inputDescription.value;
+    couter.innerText = "0";
+    newLikes.src = "/src/assets/img/coracao-sem-like.png"; 
     newPhoto.src = newURL;
+
+    const textElement = newCard.querySelector('.description-text');
+    const fullText = textElement.innerText;
+    const limit = 150; 
+
+    // Se o texto do post novo for maior que o limite, aplica a máscara nele também
+    if (fullText.length > limit) {
+        const part1 = fullText.substring(0, limit);
+        const part2 = fullText.substring(limit);
+
+        textElement.innerHTML = `
+          ${part1}<span class="dots">... </span><span class="view-more-btn">ver mais</span><span class="more-text" style="display: none;">${part2}</span>
+        `;
+
+        const btn = textElement.querySelector('.view-more-btn');
+        btn.addEventListener('click', () => {
+            textElement.querySelector('.more-text').style.display = "inline";
+            textElement.querySelector('.dots').style.display = "none";
+            btn.style.display = "none";
+    });
+    }
 
     card.appendChild(newCard);
 
