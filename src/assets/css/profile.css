@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --Fundo-Preto:#0D0B14;
+    --Cards:#1E1B29;
+    --Bordas:#312E41;
+    --Texto-Principal:#F5F3FF;
+    --Texto-Secundário:#A78BFA;
+    --Roxo-P:#BD34FE;
+    --Roxo-S:#6D28D9;
+}
+
+html{
+    -webkit-text-size-adjust: 100%;
+}
+
+body{
+    background-color: var(--Fundo-Preto);
+    font-family: "Inter", sans-serif;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+}
+
+.container-main{
+    background-color: #312E41;
+    margin-top: 0.5rem;
+    width: 60vw;
+    height: 98vh;
+}
+
+.profile{
+    border: solid 2px white;
+    margin: 0.5rem;
+    height: 30vh;
+}
+
+.activities{
+    border: solid 2px white;
+    margin: 0.5rem;
+    height: 10vh;
+}
+
+.postedMedias{
+    border: solid 2px white;
+    margin: 0.5rem;
+    height: 54.5vh;
+}
