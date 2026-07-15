@@ -275,9 +275,9 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background:
+  background: 
     linear-gradient(var(--banner-overlay), var(--banner-overlay)),
-    url(../img/about.webp) top/cover no-repeat;
+    url(../img/about.webp) top center/100% auto no-repeat;
   z-index: 0;
 }
 
