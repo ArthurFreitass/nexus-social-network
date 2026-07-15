@@ -78,18 +78,20 @@ main.addEventListener("click", e => {
 
 
 /////////////////////////////////// Comentários /////////////////////////////////////////////////////////
-const commentsClick = document.querySelectorAll(".commentsClick");
-const commentsCounter = document.querySelectorAll(".commentsCounter");
-const commentsModal = document.querySelectorAll(".modalComments");
-let contadorComent = 0;
+main.addEventListener("click", e => {
+    if(e.target.classList.contains("commentsClick")){
+        const comment = e.target;
+        //console.log(comment);
 
-for(let i = 0 ; i < commentsClick.length ; i++){
-    commentsClick[i].addEventListener("click", e => {
+        const modalComments = document.querySelector(".modalComments");
+        modalComments.showModal();
 
-        commentsModal[i].showModal();
+        const commentCounter = main.querySelector(".commentsCounter");
+        let contadorComment = Number(commentCounter.innerText);
 
-    })
-}
+        
+    }
+})
 
 ///////////////////////////////////   MUSIC  /////////////////////////////////////////////
 const inputM = document.getElementById("upMusic");
@@ -245,11 +247,21 @@ function postar(){
     let couter = newCard.querySelector(".likeCounter");
     const inputDescription = document.getElementById("textInput");
     let newcomments = newCard.querySelector(".description-text");
+    
+    if(!newURL || newURL === "undefined"){
+        window.alert("Insira uma imagem!");
+        return;
+    }
 
-    newcomments.innerText = inputDescription.value;
+    if(inputDescription.value.trim() === ""){
+        window.alert("Insira uma descrição!");
+        return;
+    }
+
     couter.innerText = "0";
-    newLikes.src = "/src/assets/img/coracao-sem-like.png"; 
+    newLikes.src = "/src/assets/img/coracao-sem-like.png";
     newPhoto.src = newURL;
+    newcomments.innerText = inputDescription.value; 
 
     const textElement = newCard.querySelector('.description-text');
     const fullText = textElement.innerText;
