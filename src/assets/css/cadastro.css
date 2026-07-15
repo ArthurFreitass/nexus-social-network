@@ -1,0 +1,364 @@
+
+:root {
+    --primary: #BD34FE;
+    --secundary: #6D28D9;
+    --primary-hover: #d15bff;
+    --primary-rgb: 189, 52, 254;
+
+    /* Tema escuro (painel de marca) */
+    --background-main: #0D0B14;
+    --superficie: #1E1B29;
+    --border-separators: #312E41;
+    --mainText: #F5F3FF;
+    --secondText: #A78BFA;
+
+    /* Tema claro (painel do formulário) */
+    --background: #F9F8FF;
+    --ligthSuperficie: #FFFFFF;
+    --light-border-separators: #E4E2F1;
+    --light-main-text: #130F26;
+    --second-light-text: #6D6A80;
+
+    --font-family: "Inter", sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 24px;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 32px rgba(var(--primary-rgb), 0.28);
+
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    font-family: var(--font-family);
+    cursor: pointer;
+    border: none;
+}
+
+   LAYOUT SPLIT-SCREEN
+
+.pagina-cadastro {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+}
+
+.link-voltar {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--second-light-text);
+    transition: color var(--transition-fast);
+}
+
+.link-voltar span {
+    transition: transform var(--transition-fast);
+}
+
+.link-voltar:hover {
+    color: var(--primary);
+}
+
+.link-voltar:hover span {
+    transform: translateX(-3px);
+}
+
+/* ---------- Painel de marca ---------- */
+
+.painel-apresentacao {
+    display: none; 
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: linear-gradient(20deg, rgb(2, 4, 73), rgb(48, 3, 48));
+}
+
+
+.conteudo-apresentacao {
+    position: relative;
+    z-index: 1;
+    max-width: 470px;
+    color: var(--mainText);
+    padding: 30px;
+    
+}
+
+.brand-logo {
+    display: inline-block;
+    margin-bottom: 2.5rem;
+}
+
+.brand-logo img {
+    height: 40px;
+    width: auto;
+}
+
+.conteudo-apresentacao h1 {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.conteudo-apresentacao p {
+    color: var(--secondText);
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* ---------- Painel do formulário ---------- */
+
+.painel-formulario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background);
+    padding: 5rem 1.5rem 2.5rem;
+}
+
+.caixa-formulario {
+    width: 100%;
+    max-width: 400px;
+}
+
+.cabecalho-formulario {
+    margin-bottom: 1.8rem;
+}
+
+.cabecalho-formulario h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--light-main-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.subtitulo {
+    color: var(--second-light-text);
+    font-size: 0.95rem;
+}
+
+/* ---------- Formulário ---------- */
+
+.formulario-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.campo-formulario label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--light-main-text);
+}
+
+.campo-formulario input[type="text"],
+.campo-formulario input[type="email"],
+.campo-formulario input[type="password"] {
+    background-color: var(--ligthSuperficie);
+    border: 1.5px solid var(--light-border-separators);
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem;
+    color: var(--light-main-text);
+    font-size: 0.95rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.campo-formulario input::placeholder {
+    color: #A6A3B8;
+}
+
+.campo-formulario input:hover {
+    border-color: #C7C3DB;
+}
+
+.campo-formulario input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.14);
+}
+
+.caixa-senha {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.caixa-senha input {
+    width: 100%;
+    padding-right: 2.75rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.7rem;
+    background: none;
+    font-size: 1rem;
+    opacity: 0.55;
+    padding: 0.25rem;
+    transition: opacity var(--transition-fast);
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+.mensagem-erro {
+    min-height: 1rem;
+    font-size: 0.76rem;
+    color: #E23D6B;
+}
+
+
+.aceite-termos input[type="checkbox"] {
+    appearance: none;
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 0.1rem;
+    border: 1.5px solid var(--light-border-separators);
+    border-radius: 4px;
+    background-color: var(--ligthSuperficie);
+    position: relative;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.aceite-termos input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.aceite-termos input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.aceite-termos a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.aceite-termos a:hover {
+    color: var(--primary-hover);
+}
+
+/* ---------- Botão principal ---------- */
+
+.botao-cadastro {
+    margin-top: 0.4rem;
+    padding: 0.9rem;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--primary), var(--secundary));
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-fast), transform 0.15s ease;
+}
+
+.botao-cadastro:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+}
+
+.botao-cadastro:active {
+    transform: scale(0.98);
+}
+
+/* ---------- Rodapé ---------- */
+
+.rodape-formulario {
+    margin-top: 1.6rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--second-light-text);
+}
+
+.rodape-formulario a {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.rodape-formulario a:hover {
+    color: var(--primary-hover);
+}
+
+/* ==========================================================
+   RESPONSIVO
+   ========================================================== */
+
+@media (min-width: 300px) {
+    .pagina-cadastro {
+        grid-template-columns: 1.05fr 1fr;
+    }
+
+    .painel-apresentacao {
+        display: flex;
+    }
+
+    .link-voltar {
+        color: var(--secondText); 
+    }
+}
+
+@media (max-width: 480px) {
+    .cabecalho-formulario h2 {
+        font-size: 1.6rem;
+    }
+
+    .painel-formulario {
+        padding: 5rem 1.2rem 1.5rem;
+    }
+
+    .link-voltar {
+        top: 1.4rem;
+        left: 1.4rem;
+    }
+}
