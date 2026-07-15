@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crie sua conta na Nexus e comece a compartilhar ideias, publicações e momentos.">
+    <title>Nexus | Criar conta</title>
+    <link rel="stylesheet" href="../assets/css/cadastro.css">
+</head>
+
+<body>
+    <div class="pagina-cadastro">
+
+        <a href="../index.html" class="link-voltar">
+            Voltar para o início
+        </a>
+
+        <aside class="painel-apresentacao">
+            <div class="conteudo-apresentacao">
+                <h1>Junte-se à Nexus</h1>
+                <p>Crie sua conta e comece a compartilhar ideias, publicar momentos e construir conexões reais.</p>
+            </div>
+        </aside>
+
+        <main id="conteudo-principal" class="painel-formulario">
+            <div class="caixa-formulario">
+
+                <div class="cabecalho-formulario">
+                    <h2>Criar conta</h2>
+                    <p class="subtitulo">Preencha os dados abaixo para começar.</p>
+                </div>
+
+                <form id="cadastroForm" class="formulario-cadastro" novalidate>
+
+                    <div class="campo-formulario">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Nome" required>
+                        <span class="mensagem-erro" id="nomeError"></span>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="usuario">Nome de usuário</label>
+                        <input type="text" id="usuario" name="usuario" placeholder="@seuusuario" required>
+                        <span class="mensagem-erro" id="usuarioError"></span>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required>
+                        <span class="mensagem-erro" id="emailError"></span>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="senha">Senha</label>
+                        <div class="caixa-senha">
+                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
+                        </div>
+                        <span class="mensagem-erro" id="senhaError"></span>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="confirmarSenha">Confirmar senha</label>
+                        <div class="caixa-senha">
+                            <input type="password" id="confirmarSenha" name="confirmarSenha"
+                                placeholder="Repita a senha" required>
+
+                        </div>
+                        <span class="mensagem-erro" id="confirmarSenhaError"></span>
+                    </div>
+
+                    <label class="aceite-termos">
+                        <input type="checkbox" id="termos" name="termos" required>
+                        Concordo com os Termos de Uso e a Política de Privacidade
+                    </label>
+
+                    <button type="submit" class="botao-cadastro">Criar conta</button>
+
+                </form>
+
+                <p class="rodape-formulario">
+                    Já tem uma conta?
+                    <a href="./pages/login.html">Entrar</a>
+                </p>
+
+            </div>
+        </main>
+
+    </div>
+</body>
+
+</html>
