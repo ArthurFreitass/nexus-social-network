@@ -81,7 +81,7 @@ main.addEventListener("click", e => {
 main.addEventListener("click", e => {
     if(e.target.classList.contains("commentsClick")){
         const comment = e.target;
-        //console.log(comment);
+        console.log(comment);
 
         const modalComments = document.querySelector(".modalComments");
         modalComments.showModal();
@@ -89,7 +89,15 @@ main.addEventListener("click", e => {
         const commentCounter = main.querySelector(".commentsCounter");
         let contadorComment = Number(commentCounter.innerText);
 
-        
+        ///////////////////  Colocar a fot exata  /////////////////////////
+        let cardCompleto = comment.closest('.photo-card'); 
+        const modal = modalComments.querySelector(".photos")
+        const midiaP = cardCompleto.querySelector(".photos");
+        const linkMidia = (midiaP.src);
+        modal.src = linkMidia;
+        console.log(midiaP);
+
+        ///////////////////////  Perfil   exato  /////////////////////////////////////
     }
 })
 
