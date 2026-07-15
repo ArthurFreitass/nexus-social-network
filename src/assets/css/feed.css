@@ -638,23 +638,80 @@ main{
     display: none;
 }
 
-.modalComments{
+.modalComments {
     background-color: var(--Fundo-Preto);
     color: var(--Texto-Principal);
-    margin-top: 50vh;
-    margin-left: auto;
-    margin-right: auto;
-    height: 52vh;
-    width: 85%;
+    margin: auto;
+    max-height: 90vh; 
+    width: min(95vw, 1000px); 
     display: flex;
     flex-direction: column;
     animation: entrarModal 0.3s ease-out forwards;
     border: solid #BD34FE 2px;
-    border-radius: 30rem;
+    border-radius: 20px;
     padding: 0;
     overflow: hidden;
 }
 
+.modalComments[open]::backdrop {
+    background-color: rgba(13, 11, 20, 0.75);
+    backdrop-filter: blur(4px);
+    animation: entrarFundo 0.3s ease-out forwards;
+}
+
+.modalComments-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-height: 90vh; 
+}
+
+.modal-post-card {
+    width: 500px; 
+    flex-shrink: 0; 
+    border: none;
+    border-radius: 0;
+    background-color: var(--Cards);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-post-card .post {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: var(--Cards); 
+}
+
+.modal-post-card .photos {
+    width: 100%;
+    height: auto;       /* Força a altura a ser proporcional à largura */
+    max-height: 65vh;   /* Impede que fotos gigantescas passem do limite da tela */
+    object-fit: contain; /* GARANTE QUE A FOTO INTEIRA APAREÇA SEM NENHUM CORTE */
+}
+
+.commentsModal {
+    flex: 1; 
+    height: 100vh;
+    border-left: solid 1px var(--Bordas);
+    background-color: #120f1c;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments-title {
+    font-size: 1.2rem;
+    color: var(--Texto-Secundário);
+    border-bottom: solid 1px var(--Bordas);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.comments-list {
+    flex: 1;
+    overflow-y: auto;
+}
 
 
 /* =========================================
@@ -701,29 +758,44 @@ main{
         max-width: 520px;
     }
     .sidebar{
-    display: flex;
-    border: solid 2px white;
-    height: 70vh;
-    width: 14.5vw;
-    margin-top: 1rem;
-    position: fixed;
-    top: 7.5rem;          
-    z-index: 1000;   
-    overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 85.5vh;
+        width: 14.5vw;
+        margin-top: 1rem;
+        position: fixed;
+        top: 7.5rem;          
+        z-index: 1000;   
+    }
+
+    #h3Sugestion{
+        margin-top: 1rem;
+        margin-left: 2rem;
+    }
+
+    .textSugestion{
+        margin-left: 10px;
     }
 
     .profilesSugestion{
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 1.5rem;
+        transition: all 0.5s ease;
+    }
+    .profilesSugestion:hover{
+        transform: scale(103%) translateY(-3px);
+        cursor: pointer;
     }
 
     #profileSugestion{
-    width: 4rem;
-    height: 4rem;
-    border: solid 2px green;
-    border-radius: 50%;
-    overflow: hidden;
+        width: 4rem;
+        height: 3.8rem;
+        border: solid 2px #BD34FE;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0; /* Impede o Flexbox de esmagar o seu círculo */
     }
 
     #photoSugestion{
