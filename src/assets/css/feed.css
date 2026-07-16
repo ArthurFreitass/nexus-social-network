@@ -700,6 +700,10 @@ main{
     flex-direction: column;
 }
 
+.descriptionComments{
+    margin-bottom: 1rem;
+}
+
 .comments-title {
     font-size: 1.2rem;
     color: var(--Texto-Secundário);
@@ -713,6 +717,156 @@ main{
     overflow-y: auto;
 }
 
+.commentsProfiles{
+    height: 75%;
+    border: solid 2px black;
+}
+
+.enviarComments{
+    display: flex;
+    align-items: center;
+    height: 8.5vh;
+}
+
+#inputComments{
+    height: 2rem;
+    width: 68%;
+    margin-left: 10px;
+    border: #6D28D9 2.5px solid;
+    border-radius: 10px;
+    background-color: var(--Texto-Principal);
+    padding-left: 0.5rem;
+}
+
+#inputComments:focus{
+    outline: none;
+    border: #6D28D9 2.5px solid;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+#submitModal{
+    width: 23%;
+    height: 2rem;
+    margin-left: 1.5rem;
+    border: solid 2px white;
+    border-radius: 10px;
+    background-color: var(--Roxo-S);
+    color: var(--Texto-Principal);  
+    transition: all 0.3s ease;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
+}
+#submitModal:hover{
+    cursor: pointer;
+    box-shadow: 2px 2px 5px white;
+}
+
+/*=========================== Modal Phone ===================================*/
+.modalPhone:not([open]) {
+    display: none;
+}
+
+.modalPhone{
+    animation: entrarModal 0.3s ease-out forwards;
+    position: fixed;
+    bottom: 0;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5rem 5rem 0rem 0rem;
+    border-bottom: none;
+    background-color: var(--Cards);
+    color: var(--Texto-Principal);
+    height: 85vh; 
+    width: min(100vw, 1000px); 
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modalPhone[open]::backdrop {
+    background-color: rgba(13, 11, 20, 0.75);
+    backdrop-filter: blur(4px);
+    animation: entrarFundo 0.3s ease-out forwards;
+}
+
+.titlePhone{
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: rgba(245, 245, 245, 0.452) solid 2px;
+}
+
+.descriptionPhone{
+    height: auto;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+
+.imgPhone{
+    width: 3rem;
+    height: auto;
+    border: #A78BFA solid 2px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.imgPhone img{
+    width: 100%;
+    height: 100%;
+}
+
+.infosPhone{
+    width: auto;
+}
+
+.profilePhones{
+    padding-left: 0.7rem;
+    font-size: 15px;
+    color: #A78BFA;
+    transition: all 0.5s ease;
+}
+.profilePhones:hover{
+    transform: scale(102%);
+    cursor: pointer;
+}
+
+.textPhone{
+    padding-left: 0.7rem;
+    font-size: 15px;
+    height: auto;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.submitPhone{
+    margin-top: auto;
+}
+
+#inputPhone{
+    height: 2rem;
+    width: 70%;
+    border: #6D28D9 solid 2.5px;
+    border-radius: 15px;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+
+.enviarPhone{
+    margin-left: 0.5rem;
+    width: 20%;
+    height: 2rem;
+    border: white solid 2.5px;
+    border-radius: 15px;
+    background-color: #6D28D9;
+    color: white;
+}
 
 /* =========================================
    AJUSTES FINOS PARA CELULARES BEM PEQUENOS
@@ -734,12 +888,21 @@ main{
     .description{
         padding: 0 0.25rem;
     }
+    .modalComments{
+        display: none !important;
+    }
 }
 
 @media (min-width: 700px){
     .card{
         grid-template-columns: repeat(2, minmax(280px, 480px));
         justify-content: space-evenly;
+    }
+}
+
+@media (max-width: 1024px){
+    .modalComments{
+        display: none !important;
     }
 }
 
