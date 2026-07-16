@@ -81,24 +81,53 @@ main.addEventListener("click", e => {
 main.addEventListener("click", e => {
     if(e.target.classList.contains("commentsClick")){
         const comment = e.target;
-        console.log(comment);
+        e.stopPropagation();
+        //console.log(comment);
 
-        const modalComments = document.querySelector(".modalComments");
-        modalComments.showModal();
+        if(window.innerWidth > 1024){
+            const modalComments = document.querySelector(".modalComments");
+            modalComments.showModal();
 
-        const commentCounter = main.querySelector(".commentsCounter");
-        let contadorComment = Number(commentCounter.innerText);
+            const commentCounter = main.querySelector(".commentsCounter");
+            let contadorComment = Number(commentCounter.innerText);
 
-        ///////////////////  Colocar a fot exata  /////////////////////////
-        let cardCompleto = comment.closest('.photo-card'); 
-        const modal = modalComments.querySelector(".photos")
-        const midiaP = cardCompleto.querySelector(".photos");
-        const linkMidia = (midiaP.src);
-        modal.src = linkMidia;
-        console.log(midiaP);
+            modalComments.addEventListener('click', (event) => {
+            const rect = modalComments.getBoundingClientRect();
+            
+            const clicouFora = (
+                event.clientX < rect.left ||
+                event.clientX > rect.right ||
+                event.clientY < rect.top ||
+                event.clientY > rect.bottom
+            );
+            
+            if (clicouFora) {
+                modalComments.close();
+            }})
 
-        ///////////////////////  Perfil   exato  /////////////////////////////////////
+            ///////////////////  Colocar a foto exata  /////////////////////////////////////////////
+            let cardCompleto = comment.closest('.photo-card'); 
+            const modal = modalComments.querySelector(".photos")
+            const midiaP = cardCompleto.querySelector(".photos");
+            const linkMidia = (midiaP.src);
+            modal.src = linkMidia;
+            //console.log(midiaP);
+
+            ////////////////////// Descrição exata /////////////////////////////////////////////////
+            const descriptionModal = modalComments.querySelector(".descriptionComments");
+            const midiaDescripition = cardCompleto.querySelector(".description-text");
+            descriptionModal.innerText = (midiaDescripition.textContent.split("... ver mais"));
+
+            ///////////////////////  Perfil   exato  /////////////////////////////////////////////////////
+
+        }
+        else{
+            const modalPhone = document.querySelector(".modalPhone");
+            modalPhone.showModal();
+            
+        }
     }
+        
 })
 
 ///////////////////////////////////   MUSIC  /////////////////////////////////////////////
