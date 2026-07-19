@@ -8,6 +8,7 @@
     <title>Nexus | Criar conta</title>
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/cadastro.css">
+    <link rel="shortcut icon" href="../assets/img/logo-icon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -55,7 +56,7 @@
                     <div class="campo-formulario">
                         <label for="senha">Senha</label>
                         <div class="caixa-senha">
-                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
+                            <input type="password" id="senha" name="senha" minlength="6" placeholder="Crie uma senha" required>
                         </div>
                         <span class="mensagem-erro" id="senhaError"></span>
                     </div>
@@ -64,7 +65,7 @@
                         <label for="confirmarSenha">Confirmar senha</label>
                         <div class="caixa-senha">
                             <input type="password" id="confirmarSenha" name="confirmarSenha"
-                                placeholder="Repita a senha" required>
+                                placeholder="Repita a senha" minlength="6" required>
 
                         </div>
                         <span class="mensagem-erro" id="confirmarSenhaError"></span>
@@ -74,20 +75,21 @@
                         <input type="checkbox" id="termos" name="termos" required>
                         Concordo com os Termos de Uso e a Política de Privacidade
                     </label>
-
+                    <span class="mensagem-erro" id="termosError"></span>
                     <button type="submit" class="botao-cadastro">Criar conta</button>
 
                 </form>
 
                 <p class="rodape-formulario">
                     Já tem uma conta?
-                    <a href="./pages/login.html">Entrar</a>
+                    <a href="login.html">Entrar</a>
                 </p>
 
             </div>
         </main>
 
     </div>
+    <script src="../assets/js/register.js"></script>
 </body>
 
 </html>
