@@ -47,7 +47,6 @@
 
   --container-max: 1200px;
 
-  /* Altura do banner independente do texto — chave da correção */
   --banner-height-mobile: clamp(260px, 55vw, 380px);
 }
 
