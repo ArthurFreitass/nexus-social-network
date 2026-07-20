@@ -1,4 +1,18 @@
-const users = JSON.parse(localStorage.getItem("UsersNexus")) || []
+let users = [];
+
+try {
+    const data = localStorage.getItem("UsersNexus");
+
+    if (!data) {
+        users = [];
+    } else {
+        const convert = JSON.parse(data);
+        users = Array.isArray(convert) ? convert : [];
+    }
+} catch {
+    console.log("Error reading users!");
+    users = [];
+}
 
 document.getElementById("cadastroForm").addEventListener("submit", function (event) {
 
