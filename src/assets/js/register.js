@@ -129,7 +129,7 @@ const newUser = (name, nameUser, email, password) => {
         Name: name,
         NameUser: nameUser,
         Email: email,
-        password: password,
+        Password: password,
     };
 
     return newUser;
