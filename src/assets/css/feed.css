@@ -105,10 +105,24 @@ nav{
     align-items: center;
 }
 
-ul{
-    list-style: none;
+#menu {
+    display: none; /* Escondido por padrão */
+}
+
+#menu.open {
     display: flex;
-    flex-wrap: wrap;
+    animation: fadeIn 0.7s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 li{
@@ -126,6 +140,18 @@ li{
 }
 .list:hover{
     transform: translateY(-3.5px) scale(105%);
+}
+
+#navgation{
+    width: 2.5rem;
+    transition: all 0.5s ease;
+}
+#navgation:hover{
+    cursor: pointer;
+    transform: scale(103%) translateY(-2px);
+}
+#navgation img{
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
      
@@ -176,6 +202,7 @@ main{
     border-radius: 1.5rem;
     margin-bottom: 0;
     overflow: hidden;
+    margin-left: 1.3rem;
 }
 
 .profile{
@@ -231,6 +258,32 @@ main{
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative;
+}
+
+.song{
+    height: clamp(1.8rem, 9%, 2.6rem);  
+    width: clamp(1.8rem, 9%, 2.6rem);
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    bottom: 1%;  
+    right: 2%;
+    border: #6D28D9 solid 2px;
+    border-radius: 50%;
+    position: absolute;
+    transition: all 0.5s ease;
+    background-color: var(--Cards);
+}
+.song:hover{
+    cursor: pointer;
+    transform: scale(102%) translateY(-2px);
+}
+
+.imgSong{
+    height: 85%;
+    width: 85%;
+    padding-left: 5px;
+    filter: invert(99%) sepia(1%) saturate(1450%) hue-rotate(189deg) brightness(102%) contrast(94%);
 }
 
 .photos{
@@ -532,6 +585,123 @@ main{
     filter: invert(1) hue-rotate(180deg);
 }
 
+/* ============= Cortador de trecho de áudio ======================= */
+.audioTrimmer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background-color: #120f1c;
+    border: solid 2px var(--Bordas);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    overflow: hidden;
+}
+
+.trimClose{
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    z-index: 4;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--Bordas);
+    color: var(--Texto-Principal);
+    font-size: 0.75rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.trimClose:hover{
+    background-color: var(--Roxo-S);
+}
+
+.trimWaveWrap{
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #0D0B14;
+    user-select: none;
+}
+
+.trimCanvas{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.trimSelection{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: rgba(189, 52, 254, 0.18);
+    pointer-events: none;
+}
+
+.trimHandle{
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    background-color: var(--Roxo-P);
+    cursor: ew-resize;
+    opacity: 0.9;
+}
+
+.trimControls{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.trimControls button{
+    background-color: var(--Roxo-S);
+    color: var(--Texto-Principal);
+    border: solid 1px white;
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.trimControls button:hover{
+    transform: scale(1.04);
+    box-shadow: 1px 1px 4px white;
+}
+
+.trimTime{
+    color: var(--Texto-Secundário);
+    font-size: 0.7rem;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.trimPronto{
+    color: var(--Texto-Secundário);
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 0.25rem;
+}
+
+.audioTrimmer audio.musicModal{
+    position: static;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
 .uploadPhoto{
     display: flex;
     width: 100%;
@@ -692,7 +862,7 @@ main{
 
 .commentsModal {
     flex: 1; 
-    height: 100vh;
+    min-height: 0;      /* garante que ele não estoure o pai */
     border-left: solid 1px var(--Bordas);
     background-color: #120f1c;
     padding: 1.5rem;
@@ -713,19 +883,21 @@ main{
 }
 
 .comments-list {
+   display: flex;
+    flex-direction: column;
     flex: 1;
+    min-height: 0;    
     overflow-y: auto;
 }
 
 .commentsProfiles{
-    height: 75%;
     border: solid 2px black;
 }
 
 .enviarComments{
     display: flex;
     align-items: center;
-    height: 8.5vh;
+    margin-top: auto;
 }
 
 #inputComments{
@@ -891,7 +1063,9 @@ main{
     .modalComments{
         display: none !important;
     }
+    
 }
+
 
 @media (min-width: 700px){
     .card{
