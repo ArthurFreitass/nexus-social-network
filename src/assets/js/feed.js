@@ -83,10 +83,10 @@ main.addEventListener("click", e => {
         let contadorLike = Number(likeCounter.innerText);
 
         if(like.src.includes("coracao-com-like.png")){
-            like.src = "/src/assets/img/coracao-sem-like.png";
+            like.src = "../assets/img/coracao-sem-like.png";
             contadorLike--;
         } else {
-            like.src = "/src/assets/img/coracao-com-like.png";
+            like.src = "../assets/img/coracao-com-like.png";
             contadorLike++;
         }
         
@@ -414,11 +414,11 @@ main.addEventListener("click", e => {
         const playSong = mainAudio.querySelector(".playSong");
 
         if (btnAudio.src.includes("sem-som.png")) {
-            imgBtn.src = "/src/assets/img/som.png";
+            imgBtn.src = "../assets/img/som.png";
             playSong.play();
         } 
         else{
-            imgBtn.src = "/src/assets/img/sem-som.png";
+            imgBtn.src = "../assets/img/sem-som.png";
             playSong.pause();
         }
     }
@@ -530,7 +530,7 @@ function postar(){
 
     newSong.src = musicURL;
     couter.innerText = "0";
-    newLikes.src = "/src/assets/img/coracao-sem-like.png";
+    newLikes.src = "../assets/img/coracao-sem-like.png";
     newPhoto.src = newURL;
     newcomments.innerText = inputDescription.value; 
 
