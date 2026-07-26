@@ -98,18 +98,18 @@ main.addEventListener("click", e => {
 
 
 /////////////////////////////////// Comentários /////////////////////////////////////////////////////////
+let cartaoAtual = null; // guarda qual post teve os comentários abertos, pra saber onde salvar o novo comentário
+
 main.addEventListener("click", e => {
     if(e.target.classList.contains("commentsClick")){
         const comment = e.target;
         e.stopPropagation();
-        //console.log(comment);
+
+        cartaoAtual = comment.closest('.photo-card');
 
         if(window.innerWidth > 1024){
             const modalComments = document.querySelector(".modalComments");
             modalComments.showModal();
-
-            const commentCounter = main.querySelector(".commentsCounter");
-            let contadorComment = Number(commentCounter.innerText);
 
             modalComments.addEventListener('click', (event) => {
             const rect = modalComments.getBoundingClientRect();
@@ -126,19 +126,19 @@ main.addEventListener("click", e => {
             }})
 
             ///////////////////  Colocar a foto exata  /////////////////////////////////////////////
-            let cardCompleto = comment.closest('.photo-card'); 
             const modal = modalComments.querySelector(".photos")
-            const midiaP = cardCompleto.querySelector(".photos");
+            const midiaP = cartaoAtual.querySelector(".photos");
             const linkMidia = (midiaP.src);
             modal.src = linkMidia;
-            //console.log(midiaP);
 
             ////////////////////// Descrição exata /////////////////////////////////////////////////
             const descriptionModal = modalComments.querySelector(".descriptionComments");
-            const midiaDescripition = cardCompleto.querySelector(".description-text");
+            const midiaDescripition = cartaoAtual.querySelector(".description-text");
             descriptionModal.innerText = (midiaDescripition.textContent.split("... ver mais"));
 
-            ///////////////////////  Perfil   exato  /////////////////////////////////////////////////////
+            //////////////////// Contador de comentários exato /////////////////////////////////////
+            const contadorOriginal = cartaoAtual.querySelector(".commentsCounter").innerText;
+            modalComments.querySelector(".commentsCounter").innerText = contadorOriginal;
 
         }
         else{
@@ -149,6 +149,109 @@ main.addEventListener("click", e => {
     }
         
 })
+
+//////////////////////////// Criação/inserção de um novo comentário ////////////////////////////////
+
+function criarComentario(texto){
+    const div = document.createElement("div");
+    div.classList.add("descriptionPhone");
+
+    const imgWrap = document.createElement("div");
+    imgWrap.classList.add("imgPhone");
+    const img = document.createElement("img");
+    img.src = "../assets/img/logo_semtexto.png";
+    img.alt = "";
+    imgWrap.appendChild(img);
+
+    const infos = document.createElement("div");
+    infos.classList.add("infosPhone");
+
+    const nome = document.createElement("p");
+    nome.classList.add("profilePhones");
+    nome.innerText = "Você";
+
+    const texP = document.createElement("p");
+    texP.classList.add("textPhone");
+    texP.innerText = texto;
+
+    infos.appendChild(nome);
+    infos.appendChild(texP);
+
+    div.appendChild(imgWrap);
+    div.appendChild(infos);
+
+    return div;
+}
+
+function adicionarComentario(texto, cardOrigem){
+    const textoLimpo = texto.trim();
+    if(textoLimpo === "" || !cardOrigem) return null;
+
+    // Atualiza o contador no post original (feed)
+    const counter = cardOrigem.querySelector(".commentsCounter");
+    counter.innerText = Number(counter.innerText) + 1;
+
+    // Guarda o comentário também dentro do próprio card, pra não se perder quando o modal fechar
+    const commentsPeople = cardOrigem.querySelector(".commentsPeople");
+    if(commentsPeople){
+        commentsPeople.appendChild(criarComentario(textoLimpo));
+    }
+
+    return criarComentario(textoLimpo);
+}
+
+////////////////////////////////////  Enviar comentário (modal desktop)  ////////////////////////////
+const inputComments = document.getElementById("inputComments");
+const submitModal = document.getElementById("submitModal");
+
+submitModal.addEventListener("click", () => {
+    const listaComments = document.querySelector(".modalComments .comments-list");
+    const enviarComments = listaComments.querySelector(".enviarComments");
+
+    const novoComentario = adicionarComentario(inputComments.value, cartaoAtual);
+
+    if(novoComentario){
+        listaComments.insertBefore(novoComentario, enviarComments);
+
+        // sincroniza o contador exibido dentro do próprio modal
+        const modalCounter = document.querySelector(".modalComments .commentsCounter");
+        modalCounter.innerText = cartaoAtual.querySelector(".commentsCounter").innerText;
+    }
+
+    inputComments.value = "";
+});
+
+inputComments.addEventListener("keypress", e => {
+    if(e.key === "Enter"){
+        e.preventDefault();
+        submitModal.click();
+    }
+});
+
+////////////////////////////////////  Enviar comentário (modal mobile)  /////////////////////////////
+const inputPhone = document.getElementById("inputPhone");
+const enviarPhone = document.querySelector(".enviarPhone");
+const modalPhoneEl = document.querySelector(".modalPhone");
+
+enviarPhone.addEventListener("click", () => {
+    const submitPhoneWrap = modalPhoneEl.querySelector(".submitPhone");
+
+    const novoComentario = adicionarComentario(inputPhone.value, cartaoAtual);
+
+    if(novoComentario){
+        modalPhoneEl.insertBefore(novoComentario, submitPhoneWrap);
+    }
+
+    inputPhone.value = "";
+});
+
+inputPhone.addEventListener("keypress", e => {
+    if(e.key === "Enter"){
+        e.preventDefault();
+        enviarPhone.click();
+    }
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////   MUSIC (com corte de trecho)  /////////////////////////////////////////////
 let musicURL;
@@ -533,6 +636,11 @@ function postar(){
     newLikes.src = "../assets/img/coracao-sem-like.png";
     newPhoto.src = newURL;
     newcomments.innerText = inputDescription.value; 
+
+    const newCommentsCounter = newCard.querySelector(".commentsCounter");
+    if(newCommentsCounter) newCommentsCounter.innerText = "0";
+    const newCommentsPeople = newCard.querySelector(".commentsPeople");
+    if(newCommentsPeople) newCommentsPeople.innerHTML = "";
 
     const textElement = newCard.querySelector('.description-text');
     aplicarLimiteTexto(textElement);
