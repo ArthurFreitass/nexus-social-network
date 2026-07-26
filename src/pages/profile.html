@@ -15,17 +15,100 @@
 
     <main>
 
+        <div class="logo">
+            <a href="/src/pages/feed.html"> <img src="/src/assets/img/logo_comtexto-removebg-preview.png" alt=""> </a>
+        </div>
+
+        <div class="config">
+            <img src="/src/assets/img/configuracoes-cog.png" alt="">
+        </div>
+
         <div class="container-main">
         
             <div class="profile">
+
+                <div class="photo">
+                    <img src="/src/assets/img/logo_semtexto.png" alt="">
+                </div>
+
+                <div class="name">
+                    <p id="nomeUsuario">Nexus</p>
+                </div>
+
+                <div class="mainFollow">
+
+                    <div class="followers">
+                        <p class="text1" data-i18n="seguidores">Seguidores</p>
+                        <p id="followers">0</p>
+                        <p class="text2" data-i18n="seguindo">Seguindo</p>
+                        <p>0</p>
+                    </div>
+
+                    <div class="btnFollowers">
+
+                        <button id="follow" data-i18n="seguir">Seguir</button>
+                        <button id="message" data-i18n="mensagem">Mensagem</button>
+
+                    </div>
+
+                </div>
 
             </div>
 
             <div class="activities">
 
+                <div class="dayMusic">
+
+                    <div class="music-card">
+                        <div class="artist-name">TRUE CHAD</div>
+                        
+                        <div class="cover-wrapper">
+                            <img src="/src/assets/img/Low-cortisol.webp" alt="Capa da Música" class="cover-img" id="capaMusica">
+                        </div>
+
+                        <div class="song-title">Titanium x Please Me</div>
+
+                        <div class="progress-container">
+                            <span id="currentTime" class="time">0:00</span>
+                            <input type="range" id="progressBar" class="progress-bar" value="0" min="0" max="100">
+                            <span id="durationTime" class="time">0:00</span>
+
+                            <button class="btn-control">
+                            <svg id="icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                            <audio id="daySong" src=""></audio>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="description">
+
+                    <div class="bio">
+                        <h2 data-i18n="bio">Bio</h2>
+                        <p id="bioTexto" class="textoConteudo"></p>
+                    </div>
+
+                    <div class="works">
+                        <h2 data-i18n="trabalhos">Trabalhos e competências</h2>
+                        <p id="trabalhosTexto" class="textoConteudo"></p>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="postedMedias">
+
+                <div class="posts">
+                    <img class="imgPosts" src="/src/assets/img/Design sem nome.png" alt="">
+                </div>
+
+                <div class="posts">
+                    <img class="imgPosts" src="/src/assets/img/post-1.jpg" alt="">
+                </div>
 
             </div>
 
@@ -33,6 +116,226 @@
 
     </main>
 
-</body>
+    <dialog class="modalComments">
 
+            <div class="modalComments-container">
+
+                <div class="photo-card modal-post-card">
+
+                    <div class="profile">
+                        <div class="photoProfile">
+                            <img id="photoProfile" src="/src/assets/img/logo_semtexto.png" alt="Nexus">
+                        </div>
+                        <div class="nameProfile">
+                            <p> Nexus </p> 
+                            <img id="verificar" src="/src/assets/img/Verificado.png" alt="Verificado">
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <img class="photos" src="/src/assets/img/post-1.jpg" alt="Post">
+                    </div>
+
+                    <div class="likes">
+                        <div class="icons">
+                            <img class="like" src="/src/assets/img/coracao-sem-like.png" alt="Like">
+                        </div>
+                        <div class="contador">
+                            <p class="likeCounter">0</p>
+                        </div>
+                        <div class="icons">
+                            <img class="commentsClick" src="/src/assets/img/cometarios.png" alt="Comentários">
+                        </div>
+                        <div class="contador">
+                            <p class="commentsCounter">0</p>
+                        </div>
+                        <div class="icons" id="save">
+                            <img src="/src/assets/img/salvar-post.png" alt="Salvar">
+                        </div>
+                    </div>
+
+                </div> 
+
+                <div class="commentsModal">
+                    <p class="descriptionComments"></p>
+
+                    <h3 class="comments-title">Comentários</h3>
+                    <div class="comments-list">
+                        <div class="descriptionPhone">
+
+                            <div class="imgPhone">
+                                <img src="/src/assets/img/Arthur.jpg" alt="">
+                            </div>
+                                
+                            <div class="infosPhone">
+                                <p class="profilePhones">ArthurFreitass</p>
+                                <p class="textPhone">Faaahh!</p>
+                            </div>
+                                
+                        </div>
+
+                            <div class="descriptionPhone">
+
+                                <div class="imgPhone">
+                                    <img src="/src/assets/img/Tiago.jpg" alt="">
+                                </div>
+                                
+                                <div class="infosPhone">
+                                    <p class="profilePhones">ThiagoFrts</p>
+                                    <p class="textPhone">Parô kkks!</p>
+                                </div>
+                                
+                            </div>
+
+                            <div class="descriptionPhone">
+
+                            <div class="imgPhone">
+                                <img src="/src/assets/img/Davi.jpg" alt="">
+                            </div>
+                                
+                            <div class="infosPhone">
+                                <p class="profilePhones">Davi-Profeta</p>
+                                <p class="textPhone">Carabobo!</p>
+                            </div>
+                                
+                        </div>
+
+
+                        <div class="enviarComments">
+                            <input id="inputComments" type="text" placeholder="Comente aqui!">
+                            <button id="submitModal">Enviar</button>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </dialog>
+
+        <dialog class="settings"> 
+
+            <div class="options">
+                <button type="button" class="optionIcon" data-panel="perfil">
+                    <img class="iconsSettings" src="/src/assets/img/perfilUser.png" alt="Editar perfil">
+                    <span class="optionLabel" data-i18n="perfilLabel">Edite seu perfil</span>
+                </button>
+                <button type="button" class="optionIcon" data-panel="seguranca">
+                    <img class="iconsSettings" src="/src/assets/img/privacidade.png" alt="Segurança">
+                    <span class="optionLabel" data-i18n="segurancaLabel">Segurança</span>
+                </button>
+                <button type="button" class="optionIcon" data-panel="idioma">
+                    <img class="iconsSettings" src="/src/assets/img/idiomas.png" alt="Idioma">
+                    <span class="optionLabel" data-i18n="idiomaLabel">Idioma</span>
+                </button>
+            </div>
+
+            <div class="settingsContent">
+
+                <div class="titleSettings">
+                    <h2 id="settingsTitle" data-i18n="configuracoes">Configurações</h2>
+                </div>
+
+                <!-- Painel: Editar Perfil -->
+                <div class="painelSettings" id="painel-perfil">
+
+                    <div class="campoSettings">
+                        <label for="inputUsername">Nome de usuário (@)</label>
+                        <input type="text" id="inputUsername" maxlength="20" placeholder="@seunome">
+                    </div>
+
+                    <div class="campoSettings">
+                        <label for="inputMusicaPerfil">Música do dia</label>
+                        <input type="file" id="inputMusicaPerfil" accept="audio/*">
+                        <span class="dicaSettings">Deixe vazio pra manter a música atual</span>
+                    </div>
+
+                    <div class="campoSettings">
+                        <label for="inputCapaMusica">Capa da música</label>
+                        <input type="file" id="inputCapaMusica" accept="image/*">
+                        <span class="dicaSettings">Deixe vazio pra manter a capa atual</span>
+                    </div>
+
+                    <div class="campoSettings">
+                        <label for="textareaBio">
+                            Bio
+                            <span class="contadorCaracteres"><span id="contadorBio">0</span>/120</span>
+                        </label>
+                        <textarea id="textareaBio" maxlength="120" placeholder="Fale um pouco sobre você..."></textarea>
+                    </div>
+
+                    <div class="campoSettings">
+                        <label for="textareaTrabalhos">
+                            Trabalhos e competências
+                            <span class="contadorCaracteres"><span id="contadorTrabalhos">0</span>/150</span>
+                        </label>
+                        <textarea id="textareaTrabalhos" maxlength="150" placeholder="O que você faz/sabe fazer?"></textarea>
+                    </div>
+
+                    <button type="button" id="btnSalvarPerfil" class="btnSalvarSettings" data-i18n="salvar">Salvar alterações</button>
+                </div>
+
+                <!-- Painel: Segurança -->
+                <div class="painelSettings" id="painel-seguranca">
+
+                    <div class="campoSettings linhaSettings">
+                        <div>
+                            <label>Autenticação em duas etapas</label>
+                            <p class="dicaSettings">Adicione uma camada extra de proteção na sua conta</p>
+                        </div>
+                        <label class="switchSettings">
+                            <input type="checkbox" id="toggle2FA">
+                            <span class="sliderSettings"></span>
+                        </label>
+                    </div>
+
+                    <div class="campoSettings linhaSettings">
+                        <div>
+                            <label>Alertas de novo login</label>
+                            <p class="dicaSettings">Avisar quando entrarem na conta de um aparelho novo</p>
+                        </div>
+                        <label class="switchSettings">
+                            <input type="checkbox" id="toggleAlertaLogin" checked>
+                            <span class="sliderSettings"></span>
+                        </label>
+                    </div>
+
+                    <div class="campoSettings">
+                        <label>Sessões ativas</label>
+                        <div class="sessaoItem">
+                            <span>Windows · Belo Horizonte, MG</span>
+                            <span class="sessaoAtual">Este aparelho</span>
+                        </div>
+                        <div class="sessaoItem">
+                            <span>Android · Belo Horizonte, MG</span>
+                            <button type="button" class="btnSairSessao">Encerrar</button>
+                        </div>
+                    </div>
+
+                    <div class="campoSettings">
+                        <p class="dicaSettings">
+                            Saiba como seus dados são tratados na
+                            <a href="https://www.gov.br/anpd/pt-br" target="_blank" rel="noopener">Lei Geral de Proteção de Dados (LGPD)</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Painel: Idioma -->
+                <div class="painelSettings" id="painel-idioma">
+                    <div class="campoSettings">
+                        <label>Escolha o idioma</label>
+                        <div class="idiomaOpcoes">
+                            <button type="button" class="idiomaBtn" data-lang="pt-BR">🇧🇷 Português</button>
+                            <button type="button" class="idiomaBtn" data-lang="en">🇺🇸 English</button>
+                            <button type="button" class="idiomaBtn" data-lang="es">🇪🇸 Español</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </dialog>
+
+</body>
+    <script src="/src/assets/js/profile.js"></script>
 </html>
