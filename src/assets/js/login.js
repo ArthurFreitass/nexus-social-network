@@ -28,18 +28,21 @@ form.addEventListener("submit", function (event) {
 
     event.preventDefault()
 
-    const email = document.getElementById("email").value.trim()
+    const login = document.getElementById("email").value.trim()
     const password = document.getElementById("senha").value.trim()
     const rememberMe = document.getElementById("lembrar").checked
 
-    if (checkEmail(email) === false) {
+    if (checkLogin(login) === false) {
         return
     }
 
-    const user = findUserByEmail(email);
+    const user = findUserByLogin(login);
 
     if (!user) {
-        document.getElementById("emailError").innerHTML = "<strong>E-mail não encontrado</strong>"
+        const emailErrorMsg = document.getElementById("emailError")
+        emailErrorMsg.innerHTML = isUsername(login)
+            ? "<strong>Nome de usuário não encontrado</strong>"
+            : "<strong>E-mail não encontrado</strong>"
         return;
     }
 
@@ -63,14 +66,25 @@ form.addEventListener("submit", function (event) {
 
 });
 
-const findUserByEmail = (email) => {
-    return users.find(u => u.Email === email);
+const isUsername = (value) => {
+    return value.startsWith("@");
 }
 
-const checkEmail = (value) => {
+const findUserByLogin = (value) => {
+    if (isUsername(value)) {
+        return users.find(u => u.NameUser === value);
+    }
+    return users.find(u => u.Email === value);
+}
+
+const checkLogin = (value) => {
+    if (isUsername(value)) {
+        return true;
+    }
+
     if (!isValidEmail(value)) {
         const emailErrorMsg = document.getElementById("emailError")
-        emailErrorMsg.innerHTML = "<strong>Entre com um endereço de e-mail válido!</strong>"
+        emailErrorMsg.innerHTML = "<strong>Entre com um e-mail válido ou um nome de usuário começando com @!</strong>"
         return false
     }
     return true;
