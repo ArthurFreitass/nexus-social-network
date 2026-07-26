@@ -40,7 +40,7 @@ btnFollow.addEventListener("click", e => {
 const btnMusic = document.querySelector(".btn-control");
 const song = document.getElementById("daySong");
 const capaMusica = document.getElementById("capaMusica");
-song.src = "/src/assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
+song.src = "../assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
 
 // Se a pessoa já tiver salvo uma música/capa de perfil própria, usa elas no lugar da padrão
 if (list.musicaPerfilBase64) {
@@ -301,4 +301,3 @@ document.querySelectorAll(".idiomaBtn").forEach(botao => {
 });
 
 aplicarIdioma(localStorage.getItem("nexusLang") || "pt-BR");
-
