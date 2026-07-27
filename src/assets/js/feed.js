@@ -731,6 +731,13 @@ function postar(){
     newPhoto.src = newURL;
     newcomments.innerText = inputDescription.value; 
 
+    // Usa a foto de perfil atual do usuário (a mesma salva em Configurações), em vez da foto padrão fixa
+    const newProfilePhoto = newCard.querySelector(".photoProfile img");
+    if (newProfilePhoto) {
+        const { foto } = pegarUsuarioAtual();
+        newProfilePhoto.src = foto;
+    }
+
     const textElement = newCard.querySelector('.description-text');
     aplicarLimiteTexto(textElement);
 
