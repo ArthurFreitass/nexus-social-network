@@ -1,5 +1,4 @@
 ///////////////////////////////// You Profile ////////////////////////////////////////
-
 const userList = JSON.parse(localStorage.getItem("UsersNexus"));
 const list = userList[0];
 const nameProfile = document.getElementById("nomeUsuario");
@@ -45,7 +44,7 @@ const song = document.getElementById("daySong");
 const capaMusica = document.getElementById("capaMusica");
 const tituloMusica = document.getElementById("tituloMusica");
 const autorMusica = document.getElementById("autorMusica");
-song.src = "../assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
+song.src = "/src/assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
 
 // Se a pessoa já tiver salvo música/capa/foto de perfil próprias, usa elas no lugar das padrão
 if (list.musicaPerfilBase64) {
@@ -110,8 +109,115 @@ progressBar.addEventListener("input", () => {
 /////////////////////////////////  Modal Post  ////////////////////////////////////
 const postedMedias = document.querySelector(".postedMedias");
 const modalComments = document.querySelector(".modalComments");
+let postIdAtual = null;
+
+// Mesma chave usada no feed.js: assim os comentários feitos em uma página aparecem na outra
+const CHAVE_COMENTARIOS = "nexusComentariosPorPost";
+
+function carregarTodosComentarios() {
+    try {
+        return JSON.parse(localStorage.getItem(CHAVE_COMENTARIOS)) || {};
+    } catch (erro) {
+        return {};
+    }
+}
+
+function salvarTodosComentarios(todos) {
+    try {
+        localStorage.setItem(CHAVE_COMENTARIOS, JSON.stringify(todos));
+    } catch (erro) {
+        console.error("Não foi possível salvar os comentários:", erro);
+    }
+}
+
+function carregarComentariosDoPost(postId) {
+    return carregarTodosComentarios()[postId] || [];
+}
+
+function salvarComentariosDoPost(postId, comentarios) {
+    const todos = carregarTodosComentarios();
+    todos[postId] = comentarios;
+    salvarTodosComentarios(todos);
+}
+
+// Usa o nome do arquivo da imagem como ID, igual ao feed.js, pra reconhecer o mesmo post nas duas páginas
+function obterPostId(imgSrc) {
+    if (imgSrc && !imgSrc.startsWith("data:")) {
+        try {
+            return new URL(imgSrc, window.location.href).pathname.split("/").pop();
+        } catch (erro) {
+            return imgSrc;
+        }
+    }
+    return imgSrc || "post-desconhecido";
+}
+
+function criarComentarioEl(nome, foto, texto) {
+    const novoComentario = document.createElement("div");
+    novoComentario.classList.add("descriptionPhone");
+
+    const imgPhone = document.createElement("div");
+    imgPhone.classList.add("imgPhone");
+    const img = document.createElement("img");
+    img.src = foto;
+    img.alt = "";
+    imgPhone.appendChild(img);
+
+    const infosPhone = document.createElement("div");
+    infosPhone.classList.add("infosPhone");
+    const nomeEl = document.createElement("p");
+    nomeEl.classList.add("profilePhones");
+    nomeEl.innerText = nome;
+    const textoEl = document.createElement("p");
+    textoEl.classList.add("textPhone");
+    textoEl.innerText = texto;
+    infosPhone.appendChild(nomeEl);
+    infosPhone.appendChild(textoEl);
+
+    novoComentario.appendChild(imgPhone);
+    novoComentario.appendChild(infosPhone);
+    return novoComentario;
+}
 
 if (postedMedias && modalComments) {
+    const inputComments = modalComments.querySelector("#inputComments");
+    const submitModal = modalComments.querySelector("#submitModal");
+    const commentsList = modalComments.querySelector(".comments-list");
+    const enviarComments = modalComments.querySelector(".enviarComments");
+    const commentsCounter = modalComments.querySelector(".commentsCounter");
+
+    // Os comentários fixos no HTML do modal eram só demonstração. Viram o "seed" do primeiro post
+    // do feed (Design sem nome.png) só se ainda não existir nada salvo de verdade pra ele.
+    (function carregarComentariosDemo() {
+        const primeiraImgFeed = document.querySelector('.postedMedias .posts img');
+        if (!primeiraImgFeed) return;
+        const idDemo = obterPostId(primeiraImgFeed.src);
+        if (carregarComentariosDoPost(idDemo).length > 0) return;
+
+        const demo = [];
+        commentsList.querySelectorAll(".descriptionPhone").forEach(div => {
+            demo.push({
+                nome: div.querySelector(".profilePhones").innerText,
+                foto: div.querySelector(".imgPhone img").src,
+                texto: div.querySelector(".textPhone").innerText
+            });
+        });
+        salvarComentariosDoPost(idDemo, demo);
+    })();
+
+    // Preenche o modal só com os comentários do post que foi clicado
+    function renderizarComentarios(postId) {
+        commentsList.querySelectorAll(".descriptionPhone").forEach(el => el.remove());
+
+        const comentarios = carregarComentariosDoPost(postId);
+        comentarios.forEach(c => {
+            const el = criarComentarioEl(c.nome, c.foto, c.texto);
+            commentsList.insertBefore(el, enviarComments);
+        });
+
+        if (commentsCounter) commentsCounter.innerText = comentarios.length;
+    }
+
     postedMedias.addEventListener("click", e => {
         if (e.target.classList.contains("imgPosts") || e.target.closest(".posts")) {
             const imgClicada = e.target.classList.contains("imgPosts") ? e.target : e.target.querySelector("img");
@@ -119,6 +225,9 @@ if (postedMedias && modalComments) {
             if (imgClicada) {
                 const modalImg = modalComments.querySelector(".photos");
                 if (modalImg) modalImg.src = imgClicada.src;
+
+                postIdAtual = obterPostId(imgClicada.src);
+                renderizarComentarios(postIdAtual);
                 
                 modalComments.showModal();
             }
@@ -158,46 +267,24 @@ if (postedMedias && modalComments) {
     });
 
     ///////////////////////////  Novo comentário  ///////////////////////////
-    const inputComments = modalComments.querySelector("#inputComments");
-    const submitModal = modalComments.querySelector("#submitModal");
-    const commentsList = modalComments.querySelector(".comments-list");
-    const enviarComments = modalComments.querySelector(".enviarComments");
-
     function enviarComentario() {
         const texto = inputComments.value.trim();
-        if (texto === "") return;
+        if (texto === "" || !postIdAtual) return;
 
-        const novoComentario = document.createElement("div");
-        novoComentario.classList.add("descriptionPhone");
+        const comentarios = carregarComentariosDoPost(postIdAtual);
+        comentarios.push({
+            nome: list.NameUser,
+            foto: list.fotoPerfilBase64 || fotoPerfil.src,
+            texto
+        });
+        salvarComentariosDoPost(postIdAtual, comentarios);
 
-        const imgPhone = document.createElement("div");
-        imgPhone.classList.add("imgPhone");
-        const img = document.createElement("img");
-        img.src = list.fotoPerfilBase64 || fotoPerfil.src;
-        img.alt = "";
-        imgPhone.appendChild(img);
-
-        const infosPhone = document.createElement("div");
-        infosPhone.classList.add("infosPhone");
-        const nome = document.createElement("p");
-        nome.classList.add("profilePhones");
-        nome.innerText = list.NameUser;
-        const texto2 = document.createElement("p");
-        texto2.classList.add("textPhone");
-        texto2.innerText = texto;
-        infosPhone.appendChild(nome);
-        infosPhone.appendChild(texto2);
-
-        novoComentario.appendChild(imgPhone);
-        novoComentario.appendChild(infosPhone);
-
-        commentsList.insertBefore(novoComentario, enviarComments);
-
-        const commentsCounter = modalComments.querySelector(".commentsCounter");
-        if (commentsCounter) commentsCounter.innerText = Number(commentsCounter.innerText) + 1;
+        renderizarComentarios(postIdAtual);
 
         inputComments.value = "";
-        novoComentario.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        const comentariosEls = commentsList.querySelectorAll(".descriptionPhone");
+        const ultimo = comentariosEls[comentariosEls.length - 1];
+        if (ultimo) ultimo.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
     submitModal.addEventListener("click", enviarComentario);
