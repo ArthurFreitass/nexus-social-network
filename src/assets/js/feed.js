@@ -1,5 +1,4 @@
 //////////////////////////// burguer ///////////////////////////////
-
 const btnBurguer = document.getElementById("navgation");
 const styleMenu = document.getElementById("menu");
 let menuOpen = false;
@@ -101,24 +100,75 @@ main.addEventListener("click", e => {
 /////////////////////////////////// Comentários /////////////////////////////////////////////////////////
 let postAtual = null;
 let postIdCounter = 0;
-const postsComments = {}; // { [postId]: [{ nome, foto, texto }] } -> guarda os comentários de cada post separadamente
+const postsComments = {}; // { [postId]: [{ nome, foto, texto }] } -> guarda os comentários de cada post em memória
 
-// Dá um ID único pro post e cria a "gaveta" de comentários dele
+// Chave compartilhada com o profile.js: os comentários feitos em uma página aparecem na outra
+const CHAVE_COMENTARIOS = "nexusComentariosPorPost";
+
+function carregarTodosComentarios() {
+    try {
+        return JSON.parse(localStorage.getItem(CHAVE_COMENTARIOS)) || {};
+    } catch (erro) {
+        return {};
+    }
+}
+
+function salvarTodosComentarios(todos) {
+    try {
+        localStorage.setItem(CHAVE_COMENTARIOS, JSON.stringify(todos));
+    } catch (erro) {
+        console.error("Não foi possível salvar os comentários:", erro);
+    }
+}
+
+function carregarComentariosDoPost(postId) {
+    return carregarTodosComentarios()[postId] || [];
+}
+
+function salvarComentariosDoPost(postId, comentarios) {
+    const todos = carregarTodosComentarios();
+    todos[postId] = comentarios;
+    salvarTodosComentarios(todos);
+}
+
+// Usa o nome do arquivo da imagem como ID: assim o mesmo post é reconhecido tanto no feed quanto no perfil.
+// Posts criados na hora (foto em base64) não têm um arquivo fixo, então ganham um ID avulso só pra essa sessão.
+function obterPostId(card) {
+    const img = card.querySelector('.photos');
+    if (img && img.src && !img.src.startsWith('data:')) {
+        try {
+            return new URL(img.src, window.location.href).pathname.split('/').pop();
+        } catch (erro) {
+            return img.src;
+        }
+    }
+    return 'novo-post-' + (postIdCounter++);
+}
+
+// Dá um ID pro post e carrega os comentários que já existiam salvos pra ele (se existirem)
 function inicializarPost(card) {
-    const id = String(postIdCounter++);
+    const id = obterPostId(card);
     card.dataset.postId = id;
-    postsComments[id] = [];
+    postsComments[id] = carregarComentariosDoPost(id);
     return id;
 }
 
 // Registra os posts que já existem no feed ao carregar a página
-document.querySelectorAll('.card > .photo-card').forEach(card => inicializarPost(card));
+document.querySelectorAll('.card > .photo-card').forEach(card => {
+    const id = inicializarPost(card);
+    const counter = card.querySelector('.commentsCounter');
+    if (counter) counter.innerText = postsComments[id].length;
+});
 
-// Os comentários que já vinham fixos no HTML do modal eram só demonstração e apareciam em qualquer post.
-// Aqui a gente associa eles ao primeiro post (pra não sumirem) e todo post novo já nasce com a lista vazia.
+// Os comentários que já vinham fixos no HTML do modal eram só demonstração.
+// Só usamos eles como ponto de partida se ainda não existir nada salvo de verdade pra esse post
+// (assim, se o post já tem comentários reais no localStorage, os fixos não sobrescrevem nada).
 (function carregarComentariosDemo() {
     const primeiroCard = document.querySelector('.card > .photo-card');
     if (!primeiroCard) return;
+    const postId = primeiroCard.dataset.postId;
+
+    if (postsComments[postId].length > 0) return;
 
     const demo = [];
     document.querySelectorAll('.modalComments .comments-list .descriptionPhone').forEach(div => {
@@ -129,7 +179,8 @@ document.querySelectorAll('.card > .photo-card').forEach(card => inicializarPost
         });
     });
 
-    postsComments[primeiroCard.dataset.postId] = demo;
+    postsComments[postId] = demo;
+    salvarComentariosDoPost(postId, demo);
 
     const counter = primeiroCard.querySelector('.commentsCounter');
     if (counter) counter.innerText = demo.length;
@@ -276,6 +327,7 @@ if (inputComentDesktop && btnComentDesktop) {
         const postId = postAtual.dataset.postId;
         const { nome, foto } = pegarUsuarioAtual();
         postsComments[postId].push({ nome, foto, texto });
+        salvarComentariosDoPost(postId, postsComments[postId]);
 
         const listaDesktop = document.querySelector(".modalComments .comments-list");
         renderizarComentarios(listaDesktop, postId);
@@ -311,6 +363,7 @@ if (inputComentMobile && btnComentMobile) {
         const postId = postAtual.dataset.postId;
         const { nome, foto } = pegarUsuarioAtual();
         postsComments[postId].push({ nome, foto, texto });
+        salvarComentariosDoPost(postId, postsComments[postId]);
 
         const listaMobile = document.querySelector(".modalPhone .comments-list-phone");
         renderizarComentarios(listaMobile, postId);
@@ -706,7 +759,6 @@ function postar(){
     const cardModel = document.querySelector(".photo-card");
     const clearPhoto = document.getElementById("upPhoto")
     const newCard = cardModel.cloneNode(true);
-    inicializarPost(newCard); // cada post novo ganha um ID próprio e comentários vazios (não herda os do post clonado)
     const newPhoto = newCard.querySelector(".photos");
     const newLikes = newCard.querySelector(".like")
     const newSong = newCard.querySelector(".playSong");
@@ -732,12 +784,16 @@ function postar(){
     newPhoto.src = newURL;
     newcomments.innerText = inputDescription.value; 
 
-    // Usa a foto de perfil atual do usuário (a mesma salva em Configurações), em vez da foto padrão fixa
+    // Só agora a foto real (base64) está no card, então o ID gerado não colide com o post que foi clonado
+    inicializarPost(newCard);
+    if (newCommentsCounter) newCommentsCounter.innerText = String(postsComments[newCard.dataset.postId].length);
+
+    // Usa a foto e o nome de perfil atuais do usuário (os mesmos salvos em Configurações), em vez dos valores fixos
     const newProfilePhoto = newCard.querySelector(".photoProfile img");
-    if (newProfilePhoto) {
-        const { foto } = pegarUsuarioAtual();
-        newProfilePhoto.src = foto;
-    }
+    const newProfileName = newCard.querySelector(".nameProfile p");
+    const { nome, foto } = pegarUsuarioAtual();
+    if (newProfilePhoto) newProfilePhoto.src = foto;
+    if (newProfileName) newProfileName.textContent = nome;
 
     const textElement = newCard.querySelector('.description-text');
     aplicarLimiteTexto(textElement);
