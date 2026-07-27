@@ -1,4 +1,5 @@
 //////////////////////////// burguer ///////////////////////////////
+
 const btnBurguer = document.getElementById("navgation");
 const styleMenu = document.getElementById("menu");
 let menuOpen = false;
