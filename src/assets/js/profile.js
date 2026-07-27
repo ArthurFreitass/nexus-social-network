@@ -44,7 +44,7 @@ const song = document.getElementById("daySong");
 const capaMusica = document.getElementById("capaMusica");
 const tituloMusica = document.getElementById("tituloMusica");
 const autorMusica = document.getElementById("autorMusica");
-song.src = "/src/assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
+song.src = "../assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
 
 // Se a pessoa já tiver salvo música/capa/foto de perfil próprias, usa elas no lugar das padrão
 if (list.musicaPerfilBase64) {
