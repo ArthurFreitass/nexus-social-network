@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 *{
     padding: 0;
     margin: 0;
@@ -33,36 +32,14 @@ main{
     justify-content: center;
 }
 
-/* =========================================
-   TOPBAR (logo + engrenagem)
-   ---------------------------------------------------------------
-   Antes, .logo e .config usavam margin-left fixo em rem pra tentar
-   alinhar com o .container-main (que é centralizado dinamicamente
-   via min(95vw, 50vw)). Como a posição real do container muda
-   conforme a largura da tela e os margin-left não acompanhavam essa
-   mudança, em certas resoluções os ícones "erravam" o alvo e
-   acabavam caindo em cima do conteúdo do perfil.
-
-   Agora o .topBar usa a MESMA largura e centralização do
-   .container-main (left: 50% + translateX(-50%) + mesmo width) e
-   distribui logo/engrenagem nas pontas com flex + space-between.
-   Assim eles sempre ficam grudados nas bordas do card, em qualquer
-   resolução, sem depender de margens fixas. ========================================= */
 .topBar{
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(95vw, 50vw);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem 0.5rem 0 0.5rem;
-    z-index: 10;
 }
 
 .logo{
     width: 7rem;
+    margin-left: 17rem;
 }
 .logo img{
     width: 100%;
@@ -74,6 +51,7 @@ main{
 
 .config{
     width: 4rem;
+    margin-left: 18.5rem;
 }
 .config img{
     width: 100%;
@@ -963,11 +941,9 @@ main{
         padding-bottom: 1rem;
     }
 
-    /* Abaixo de 800px o topBar deixa de ser absolute/centralizado e vira*/
+    /* topBar*/
     .topBar{
         position: static;
-        left: auto;
-        transform: none;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -977,9 +953,11 @@ main{
     }
     .logo{
         width: 4.5rem;
+        margin-left: 0;
     }
     .config{
         width: 3rem;
+        margin-left: 0;
     }
 
     /* Cabeçalho do perfil empilha: foto+nome em cima, seguidores/botões embaixo */
@@ -1031,7 +1009,7 @@ main{
         height: 15rem;
     }
 
-    /* Modal de configurações: barra lateral vira barra horizontal fixa no topo */
+    /* Modal de configurações: */
     .settings{
         flex-direction: column;
         width: 94vw;
@@ -1194,7 +1172,7 @@ main{
     }
 }
 
-/* ---- Monitores UltraWide ----*/
+/* ---- Monitores UltraWide ---- */
 @media (min-width: 1800px) {
     .topBar,
     .container-main{
