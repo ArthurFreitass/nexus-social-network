@@ -34,14 +34,12 @@ main{
 
 .topBar{
     position: absolute;
-    width: min(95vw, 50vw);
-    margin: 0 auto;
     padding: 1rem 0.5rem 0 0.5rem;
 }
 
 .logo{
     width: 7rem;
-    margin-left: 22rem;
+    margin-left: 17rem;
 }
 .logo img{
     width: 100%;
@@ -53,7 +51,7 @@ main{
 
 .config{
     width: 4rem;
-    margin-left: 23.5rem;
+    margin-left: 18.5rem;
 }
 .config img{
     width: 100%;
@@ -80,9 +78,9 @@ main{
 }
 
 .photo{
-    height: 75%;
+    height: 85%;
     width: 6.5rem;
-    margin: 1rem;
+    margin: 0.5rem;
     border: #6D28D9 solid 2px;
     border-radius: 50%;
     margin-left: 2rem;
