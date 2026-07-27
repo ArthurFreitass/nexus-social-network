@@ -1,5 +1,4 @@
 //////////////////////////// burguer ///////////////////////////////
-
 const btnBurguer = document.getElementById("navgation");
 const styleMenu = document.getElementById("menu");
 let menuOpen = false;
@@ -711,6 +710,7 @@ function postar(){
     const newLikes = newCard.querySelector(".like")
     const newSong = newCard.querySelector(".playSong");
     let couter = newCard.querySelector(".likeCounter");
+    let newCommentsCounter = newCard.querySelector(".commentsCounter");
     const inputDescription = document.getElementById("textInput");
     let newcomments = newCard.querySelector(".description-text");
     
@@ -726,6 +726,7 @@ function postar(){
 
     newSong.src = musicURL;
     couter.innerText = "0";
+    if (newCommentsCounter) newCommentsCounter.innerText = "0";
     newLikes.src = "../assets/img/coracao-sem-like.png";
     newPhoto.src = newURL;
     newcomments.innerText = inputDescription.value; 
