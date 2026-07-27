@@ -13,22 +13,25 @@
 
 <body>
 
-    <main>
+    <header class="topBar">
 
         <div class="logo">
-            <a href="feed.html"> <img src="../assets/img/logo_comtexto-removebg-preview.png" alt=""> </a>
+            <a href="feed.html"> <img class="imgIcon" src="../assets/img/logo_comtexto-removebg-preview.png" alt=""> </a>
         </div>
 
         <div class="config">
-            <img src="../assets/img/configuracoes-cog.png" alt="">
+            <img class="imgIcon" src="../assets/img/configuracoes-cog.png" alt="">
         </div>
 
+    </header>
+
+    <main>
         <div class="container-main">
         
             <div class="profile">
 
                 <div class="photo">
-                    <img src="../assets/img/logo_semtexto.png" alt="">
+                    <img id="fotoPerfil" src="../assets/img/logo_semtexto.png" alt="">
                 </div>
 
                 <div class="name">
@@ -60,13 +63,13 @@
                 <div class="dayMusic">
 
                     <div class="music-card">
-                        <div class="artist-name">TRUE CHAD</div>
+                        <div class="artist-name" id="autorMusica">TRUE CHAD</div>
                         
                         <div class="cover-wrapper">
                             <img src="../assets/img/Low-cortisol.webp" alt="Capa da Música" class="cover-img" id="capaMusica">
                         </div>
 
-                        <div class="song-title">Titanium x Please Me</div>
+                        <div class="song-title" id="tituloMusica">Titanium x Please Me</div>
 
                         <div class="progress-container">
                             <span id="currentTime" class="time">0:00</span>
@@ -242,6 +245,23 @@
                     <div class="campoSettings">
                         <label for="inputUsername">Nome de usuário (@)</label>
                         <input type="text" id="inputUsername" maxlength="20" placeholder="@seunome">
+                    </div>
+
+                    <div class="campoSettings">
+                        <label for="inputFotoPerfil">Foto de perfil</label>
+                        <input type="file" id="inputFotoPerfil" accept="image/*">
+                        <span class="dicaSettings">Deixe vazio pra manter a foto atual</span>
+                    </div>
+
+                    <div class="campoSettings linhaCampos">
+                        <div class="campoSettings">
+                            <label for="inputMusicaTitulo">Nome da música</label>
+                            <input type="text" id="inputMusicaTitulo" maxlength="40" placeholder="Título da música">
+                        </div>
+                        <div class="campoSettings">
+                            <label for="inputMusicaAutor">Autor</label>
+                            <input type="text" id="inputMusicaAutor" maxlength="40" placeholder="Artista/banda">
+                        </div>
                     </div>
 
                     <div class="campoSettings">
