@@ -106,4 +106,4 @@ Este projeto está sob a licença **MIT**.
 
 ## Autor
 
-Desenvolvido por **ArthurFreitasDev**.
+Desenvolvido por **ArthurFreitass, Davi-Profeta e ThiagoFrts**.
