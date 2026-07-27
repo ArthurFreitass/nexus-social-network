@@ -33,14 +33,36 @@ main{
     justify-content: center;
 }
 
+/* =========================================
+   TOPBAR (logo + engrenagem)
+   ---------------------------------------------------------------
+   Antes, .logo e .config usavam margin-left fixo em rem pra tentar
+   alinhar com o .container-main (que é centralizado dinamicamente
+   via min(95vw, 50vw)). Como a posição real do container muda
+   conforme a largura da tela e os margin-left não acompanhavam essa
+   mudança, em certas resoluções os ícones "erravam" o alvo e
+   acabavam caindo em cima do conteúdo do perfil.
+
+   Agora o .topBar usa a MESMA largura e centralização do
+   .container-main (left: 50% + translateX(-50%) + mesmo width) e
+   distribui logo/engrenagem nas pontas com flex + space-between.
+   Assim eles sempre ficam grudados nas bordas do card, em qualquer
+   resolução, sem depender de margens fixas. ========================================= */
 .topBar{
     position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(95vw, 50vw);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 1rem 0.5rem 0 0.5rem;
+    z-index: 10;
 }
 
 .logo{
     width: 7rem;
-    margin-left: 17rem;
 }
 .logo img{
     width: 100%;
@@ -52,7 +74,6 @@ main{
 
 .config{
     width: 4rem;
-    margin-left: 18.5rem;
 }
 .config img{
     width: 100%;
@@ -942,13 +963,11 @@ main{
         padding-bottom: 1rem;
     }
 
-    /* topBar: nos breakpoints acima os fixed margin-left (22rem/23.5rem) foram
-       calibrados para o layout desktop e "estouram" a tela em telas estreitas
-       (empurram logo/engrenagem pra fora da área visível, causando scroll
-       horizontal). Abaixo de 800px trocamos para um layout flex simples,
-       logo à esquerda e engrenagem à direita, sem alterar a regra base. */
+    /* Abaixo de 800px o topBar deixa de ser absolute/centralizado e vira*/
     .topBar{
         position: static;
+        left: auto;
+        transform: none;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -958,11 +977,9 @@ main{
     }
     .logo{
         width: 4.5rem;
-        margin-left: 0;
     }
     .config{
         width: 3rem;
-        margin-left: 0;
     }
 
     /* Cabeçalho do perfil empilha: foto+nome em cima, seguidores/botões embaixo */
@@ -1014,9 +1031,7 @@ main{
         height: 15rem;
     }
 
-    /* Modal de configurações: barra lateral vira barra horizontal fixa no topo
-       (o efeito de "abrir no hover" não existe em toque, então mostramos
-       ícone + texto sempre, lado a lado, sem precisar expandir nada) */
+    /* Modal de configurações: barra lateral vira barra horizontal fixa no topo */
     .settings{
         flex-direction: column;
         width: 94vw;
@@ -1145,12 +1160,7 @@ main{
     }
 }
 
-/* ---- Celulares em paisagem / janelas com pouca altura ----
-   As seções usam alturas em vh (98vh, 15vh, 35vh, 45.5vh). Isso funciona bem
-   quando há altura de sobra, mas em telas baixas (celular deitado, notebook
-   com barra de tarefas grande) o conteúdo pode ficar espremido ou cortado.
-   Aqui trocamos para altura automática e permitimos rolagem, sem mexer nos
-   valores padrão usados em telas normais/altas. */
+/* ---- Celulares em paisagem / janelas com pouca altura ----*/
 @media (max-height: 500px) and (max-width: 1024px) {
     .container-main{
         height: auto;
@@ -1184,11 +1194,7 @@ main{
     }
 }
 
-/* ---- Monitores UltraWide ----
-   Em telas muito largas (ultrawide, 21:9) o container em 50vw fica enorme
-   e os cards ficam esparsos. Aplicamos um teto de largura só acima de 1800px,
-   mantendo o mesmo visual em Full HD (1920px já fica levemente abaixo do teto
-   de largura relativa) e em todas as resoluções menores. */
+/* ---- Monitores UltraWide ----*/
 @media (min-width: 1800px) {
     .topBar,
     .container-main{
