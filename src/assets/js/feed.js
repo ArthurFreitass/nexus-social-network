@@ -98,160 +98,239 @@ main.addEventListener("click", e => {
 
 
 /////////////////////////////////// Comentários /////////////////////////////////////////////////////////
-let cartaoAtual = null; // guarda qual post teve os comentários abertos, pra saber onde salvar o novo comentário
+let postAtual = null;
+let postIdCounter = 0;
+const postsComments = {}; // { [postId]: [{ nome, foto, texto }] } -> guarda os comentários de cada post separadamente
+
+// Dá um ID único pro post e cria a "gaveta" de comentários dele
+function inicializarPost(card) {
+    const id = String(postIdCounter++);
+    card.dataset.postId = id;
+    postsComments[id] = [];
+    return id;
+}
+
+// Registra os posts que já existem no feed ao carregar a página
+document.querySelectorAll('.card > .photo-card').forEach(card => inicializarPost(card));
+
+// Os comentários que já vinham fixos no HTML do modal eram só demonstração e apareciam em qualquer post.
+// Aqui a gente associa eles ao primeiro post (pra não sumirem) e todo post novo já nasce com a lista vazia.
+(function carregarComentariosDemo() {
+    const primeiroCard = document.querySelector('.card > .photo-card');
+    if (!primeiroCard) return;
+
+    const demo = [];
+    document.querySelectorAll('.modalComments .comments-list .descriptionPhone').forEach(div => {
+        demo.push({
+            nome: div.querySelector('.profilePhones').innerText,
+            foto: div.querySelector('.imgPhone img').src,
+            texto: div.querySelector('.textPhone').innerText
+        });
+    });
+
+    postsComments[primeiroCard.dataset.postId] = demo;
+
+    const counter = primeiroCard.querySelector('.commentsCounter');
+    if (counter) counter.innerText = demo.length;
+})();
+
+// Preenche uma lista (desktop ou mobile) só com os comentários do post informado
+function renderizarComentarios(listaElement, postId) {
+    listaElement.querySelectorAll('.descriptionPhone').forEach(el => el.remove());
+
+    const comentarios = postsComments[postId] || [];
+    const enviarDiv = listaElement.querySelector('.enviarComments'); // só existe na lista desktop
+
+    comentarios.forEach(c => {
+        const el = criarComentario(c.nome, c.foto, c.texto);
+        if (enviarDiv) {
+            listaElement.insertBefore(el, enviarDiv);
+        } else {
+            listaElement.appendChild(el);
+        }
+    });
+}
+
+// Fecha o modal ao clicar fora dele (registrado uma única vez, não a cada clique no post)
+const modalComments = document.querySelector(".modalComments");
+modalComments.addEventListener('click', (event) => {
+    const rect = modalComments.getBoundingClientRect();
+
+    const clicouFora = (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+    );
+
+    if (clicouFora) {
+        modalComments.close();
+    }
+});
 
 main.addEventListener("click", e => {
     if(e.target.classList.contains("commentsClick")){
         const comment = e.target;
         e.stopPropagation();
+        //console.log(comment);
 
-        cartaoAtual = comment.closest('.photo-card');
+        postAtual = comment.closest('.photo-card');
+        if (!postAtual.dataset.postId) inicializarPost(postAtual); // segurança pra post sem id
+        const postId = postAtual.dataset.postId;
 
         if(window.innerWidth > 1024){
-            const modalComments = document.querySelector(".modalComments");
             modalComments.showModal();
 
-            modalComments.addEventListener('click', (event) => {
-            const rect = modalComments.getBoundingClientRect();
-            
-            const clicouFora = (
-                event.clientX < rect.left ||
-                event.clientX > rect.right ||
-                event.clientY < rect.top ||
-                event.clientY > rect.bottom
-            );
-            
-            if (clicouFora) {
-                modalComments.close();
-            }})
-
             ///////////////////  Colocar a foto exata  /////////////////////////////////////////////
+            let cardCompleto = postAtual; 
             const modal = modalComments.querySelector(".photos")
-            const midiaP = cartaoAtual.querySelector(".photos");
+            const midiaP = cardCompleto.querySelector(".photos");
             const linkMidia = (midiaP.src);
             modal.src = linkMidia;
+            //console.log(midiaP);
 
             ////////////////////// Descrição exata /////////////////////////////////////////////////
             const descriptionModal = modalComments.querySelector(".descriptionComments");
-            const midiaDescripition = cartaoAtual.querySelector(".description-text");
-            descriptionModal.innerText = (midiaDescripition.textContent.split("... ver mais"));
+            const midiaDescripition = cardCompleto.querySelector(".description-text");
+            descriptionModal.innerText = midiaDescripition.textContent.split("... ver mais")[0];
 
-            //////////////////// Contador de comentários exato /////////////////////////////////////
-            const contadorOriginal = cartaoAtual.querySelector(".commentsCounter").innerText;
-            modalComments.querySelector(".commentsCounter").innerText = contadorOriginal;
+            ///////////////////////  Comentários exatos do post  ///////////////////////////////////
+            const listaDesktop = modalComments.querySelector(".comments-list");
+            renderizarComentarios(listaDesktop, postId);
+
+            const counterModal = modalComments.querySelector(".commentsCounter");
+            if (counterModal) counterModal.innerText = postsComments[postId].length;
 
         }
         else{
             const modalPhone = document.querySelector(".modalPhone");
             modalPhone.showModal();
-            
+
+            ///////////////////////  Comentários exatos do post  ///////////////////////////////////
+            const listaMobile = modalPhone.querySelector(".comments-list-phone");
+            renderizarComentarios(listaMobile, postId);
         }
     }
         
 })
 
-//////////////////////////// Criação/inserção de um novo comentário ////////////////////////////////
+///////////////////////////////////  Enviar comentário  /////////////////////////////////////////////
 
-function criarComentario(texto){
+function pegarUsuarioAtual() {
+    try {
+        const lista = JSON.parse(localStorage.getItem("UsersNexus"));
+        const usuario = lista && lista[0];
+        return {
+            nome: (usuario && usuario.NameUser) || "Você",
+            foto: (usuario && usuario.fotoPerfilBase64) || "../assets/img/logo_semtexto.png"
+        };
+    } catch (erro) {
+        return { nome: "Você", foto: "../assets/img/logo_semtexto.png" };
+    }
+}
+
+function criarComentario(nome, foto, texto) {
     const div = document.createElement("div");
     div.classList.add("descriptionPhone");
 
-    const imgWrap = document.createElement("div");
-    imgWrap.classList.add("imgPhone");
+    const imgPhone = document.createElement("div");
+    imgPhone.classList.add("imgPhone");
     const img = document.createElement("img");
-    img.src = "../assets/img/logo_semtexto.png";
+    img.src = foto;
     img.alt = "";
-    imgWrap.appendChild(img);
+    imgPhone.appendChild(img);
 
-    const infos = document.createElement("div");
-    infos.classList.add("infosPhone");
+    const infosPhone = document.createElement("div");
+    infosPhone.classList.add("infosPhone");
+    const nomeEl = document.createElement("p");
+    nomeEl.classList.add("profilePhones");
+    nomeEl.innerText = nome;
+    const textoEl = document.createElement("p");
+    textoEl.classList.add("textPhone");
+    textoEl.innerText = texto;
+    infosPhone.appendChild(nomeEl);
+    infosPhone.appendChild(textoEl);
 
-    const nome = document.createElement("p");
-    nome.classList.add("profilePhones");
-    nome.innerText = "Você";
-
-    const texP = document.createElement("p");
-    texP.classList.add("textPhone");
-    texP.innerText = texto;
-
-    infos.appendChild(nome);
-    infos.appendChild(texP);
-
-    div.appendChild(imgWrap);
-    div.appendChild(infos);
-
+    div.appendChild(imgPhone);
+    div.appendChild(infosPhone);
     return div;
 }
 
-function adicionarComentario(texto, cardOrigem){
-    const textoLimpo = texto.trim();
-    if(textoLimpo === "" || !cardOrigem) return null;
-
-    // Atualiza o contador no post original (feed)
-    const counter = cardOrigem.querySelector(".commentsCounter");
-    counter.innerText = Number(counter.innerText) + 1;
-
-    // Guarda o comentário também dentro do próprio card, pra não se perder quando o modal fechar
-    const commentsPeople = cardOrigem.querySelector(".commentsPeople");
-    if(commentsPeople){
-        commentsPeople.appendChild(criarComentario(textoLimpo));
-    }
-
-    return criarComentario(textoLimpo);
+// Soma no contador de comentários do post que estava aberto no modal
+function somarComentarioNoPost() {
+    if (!postAtual) return;
+    const counterOriginal = postAtual.querySelector(".commentsCounter");
+    if (counterOriginal) counterOriginal.innerText = Number(counterOriginal.innerText) + 1;
 }
 
-////////////////////////////////////  Enviar comentário (modal desktop)  ////////////////////////////
-const inputComments = document.getElementById("inputComments");
-const submitModal = document.getElementById("submitModal");
+// ---- Desktop (.modalComments) ----
+const inputComentDesktop = document.getElementById("inputComments");
+const btnComentDesktop = document.getElementById("submitModal");
 
-submitModal.addEventListener("click", () => {
-    const listaComments = document.querySelector(".modalComments .comments-list");
-    const enviarComments = listaComments.querySelector(".enviarComments");
+if (inputComentDesktop && btnComentDesktop) {
+    function enviarComentarioDesktop() {
+        const texto = inputComentDesktop.value.trim();
+        if (texto === "" || !postAtual) return;
 
-    const novoComentario = adicionarComentario(inputComments.value, cartaoAtual);
+        const postId = postAtual.dataset.postId;
+        const { nome, foto } = pegarUsuarioAtual();
+        postsComments[postId].push({ nome, foto, texto });
 
-    if(novoComentario){
-        listaComments.insertBefore(novoComentario, enviarComments);
+        const listaDesktop = document.querySelector(".modalComments .comments-list");
+        renderizarComentarios(listaDesktop, postId);
 
-        // sincroniza o contador exibido dentro do próprio modal
-        const modalCounter = document.querySelector(".modalComments .commentsCounter");
-        modalCounter.innerText = cartaoAtual.querySelector(".commentsCounter").innerText;
+        const counterModal = document.querySelector(".modalComments .commentsCounter");
+        if (counterModal) counterModal.innerText = postsComments[postId].length;
+        somarComentarioNoPost();
+
+        inputComentDesktop.value = "";
+        const comentariosEls = listaDesktop.querySelectorAll('.descriptionPhone');
+        const ultimo = comentariosEls[comentariosEls.length - 1];
+        if (ultimo) ultimo.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
-    inputComments.value = "";
-});
+    btnComentDesktop.addEventListener("click", enviarComentarioDesktop);
+    inputComentDesktop.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            enviarComentarioDesktop();
+        }
+    });
+}
 
-inputComments.addEventListener("keypress", e => {
-    if(e.key === "Enter"){
-        e.preventDefault();
-        submitModal.click();
+// ---- Mobile (.modalPhone) ----
+const inputComentMobile = document.getElementById("inputPhone");
+const btnComentMobile = document.querySelector(".enviarPhone");
+
+if (inputComentMobile && btnComentMobile) {
+    function enviarComentarioMobile() {
+        const texto = inputComentMobile.value.trim();
+        if (texto === "" || !postAtual) return;
+
+        const postId = postAtual.dataset.postId;
+        const { nome, foto } = pegarUsuarioAtual();
+        postsComments[postId].push({ nome, foto, texto });
+
+        const listaMobile = document.querySelector(".modalPhone .comments-list-phone");
+        renderizarComentarios(listaMobile, postId);
+
+        somarComentarioNoPost();
+
+        inputComentMobile.value = "";
+        const comentariosEls = listaMobile.querySelectorAll('.descriptionPhone');
+        const ultimo = comentariosEls[comentariosEls.length - 1];
+        if (ultimo) ultimo.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-});
 
-////////////////////////////////////  Enviar comentário (modal mobile)  /////////////////////////////
-const inputPhone = document.getElementById("inputPhone");
-const enviarPhone = document.querySelector(".enviarPhone");
-const modalPhoneEl = document.querySelector(".modalPhone");
-
-enviarPhone.addEventListener("click", () => {
-    const submitPhoneWrap = modalPhoneEl.querySelector(".submitPhone");
-
-    const novoComentario = adicionarComentario(inputPhone.value, cartaoAtual);
-
-    if(novoComentario){
-        modalPhoneEl.insertBefore(novoComentario, submitPhoneWrap);
-    }
-
-    inputPhone.value = "";
-});
-
-inputPhone.addEventListener("keypress", e => {
-    if(e.key === "Enter"){
-        e.preventDefault();
-        enviarPhone.click();
-    }
-});
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+    btnComentMobile.addEventListener("click", enviarComentarioMobile);
+    inputComentMobile.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            enviarComentarioMobile();
+        }
+    });
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////   MUSIC (com corte de trecho)  /////////////////////////////////////////////
 let musicURL;
@@ -531,10 +610,19 @@ main.addEventListener("click", e => {
 
 
 //////////////////////////////////////////// Imagem ///////////////////////////////////////////////////
+function lerComoBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
 
 const labelPhoto = document.getElementById("labelPhoto");
 labelPhoto.addEventListener("dragenter", onEnterPhoto);
-labelPhoto.addEventListener("drop", e => {
+labelPhoto.addEventListener("drop", async e => {
     e.preventDefault(); // Impede o navegador de tentar abrir o áudio/imagem na aba
     onLeavePhoto();
        
@@ -552,9 +640,10 @@ labelPhoto.addEventListener("drop", e => {
             return; 
         }
 
+        const base64URL = await lerComoBase64(arquivo);
         const createImage = document.createElement("img");
         createImage.classList.add("photos");
-        createImage.src = URL.createObjectURL(arquivo);
+        createImage.src = base64URL;
 
         dropzone.append(createImage);
 
@@ -579,7 +668,7 @@ const inputP = document.getElementById("upPhoto");
 const dropzone = document.querySelector(".dropzonePhoto")
 inputP.addEventListener("change", FPhoto);
 
-function FPhoto(){
+async function FPhoto(){
 
     if(inputP.files.length > 0){
 
@@ -591,12 +680,14 @@ function FPhoto(){
             return;
         }
 
+        const base64URL = await lerComoBase64(inputP.files[0]);
         const createImage = document.createElement("img");
-        createImage.classList.add("photos")
-        createImage.src = URL.createObjectURL(inputP.files[0]);
-        newURL = createImage.src
+        createImage.classList.add("photos");
+        createImage.src = base64URL;
 
         dropzone.append(createImage);
+
+        newURL = createImage.src;
 
     } 
 }
@@ -614,6 +705,7 @@ function postar(){
     const cardModel = document.querySelector(".photo-card");
     const clearPhoto = document.getElementById("upPhoto")
     const newCard = cardModel.cloneNode(true);
+    inicializarPost(newCard); // cada post novo ganha um ID próprio e comentários vazios (não herda os do post clonado)
     const newPhoto = newCard.querySelector(".photos");
     const newLikes = newCard.querySelector(".like")
     const newSong = newCard.querySelector(".playSong");
@@ -637,15 +729,18 @@ function postar(){
     newPhoto.src = newURL;
     newcomments.innerText = inputDescription.value; 
 
-    const newCommentsCounter = newCard.querySelector(".commentsCounter");
-    if(newCommentsCounter) newCommentsCounter.innerText = "0";
-    const newCommentsPeople = newCard.querySelector(".commentsPeople");
-    if(newCommentsPeople) newCommentsPeople.innerHTML = "";
-
     const textElement = newCard.querySelector('.description-text');
     aplicarLimiteTexto(textElement);
 
     card.appendChild(newCard);
+    
+    const dadosDoPost = {
+    fotoUrl: newURL,
+    descricao: inputDescription.value,
+    likes: Number(couter.innerText),
+    musicaUrl: musicURL
+    };
+    localStorage.setItem("postData", JSON.stringify(dadosDoPost));
 
     inputDescription.value = "";
     const previewImg = dropzone.querySelector("img.photos");
