@@ -2,7 +2,9 @@
 const userList = JSON.parse(localStorage.getItem("UsersNexus"));
 const list = userList[0];
 const nameProfile = document.getElementById("nomeUsuario");
+const fotoPerfil = document.getElementById("fotoPerfil");
 nameProfile.innerText = list.NameUser;
+if (list.fotoPerfilBase64) fotoPerfil.src = list.fotoPerfilBase64;
 
 // Mostra na tela a bio/trabalhos que já estavam salvos (se existirem)
 const bioTexto = document.getElementById("bioTexto");
@@ -40,14 +42,22 @@ btnFollow.addEventListener("click", e => {
 const btnMusic = document.querySelector(".btn-control");
 const song = document.getElementById("daySong");
 const capaMusica = document.getElementById("capaMusica");
-song.src = "../assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
+const tituloMusica = document.getElementById("tituloMusica");
+const autorMusica = document.getElementById("autorMusica");
+song.src = "/src/assets/audio/Titanium x Please Me - TRUE CHAD.mp3"
 
-// Se a pessoa já tiver salvo uma música/capa de perfil própria, usa elas no lugar da padrão
+// Se a pessoa já tiver salvo música/capa/foto de perfil próprias, usa elas no lugar das padrão
 if (list.musicaPerfilBase64) {
     song.src = list.musicaPerfilBase64;
 }
 if (list.capaMusicaBase64) {
     capaMusica.src = list.capaMusicaBase64;
+}
+if (list.musicaTitulo) {
+    tituloMusica.innerText = list.musicaTitulo;
+}
+if (list.musicaAutor) {
+    autorMusica.innerText = list.musicaAutor;
 }
 
 let musicController = false;
@@ -124,6 +134,78 @@ if (postedMedias && modalComments) {
         );
         if (clicouFora) modalComments.close();
     });
+
+    ///////////////////////////  Curtida (dentro do modal)  ///////////////////////////
+    modalComments.addEventListener("click", e => {
+        if (e.target.classList.contains("like")) {
+            const botaoLike = e.target;
+            const blocoLikes = botaoLike.closest(".likes");
+            const likeCounter = blocoLikes.querySelector(".likeCounter");
+
+            let contadorLike = Number(likeCounter.innerText);
+
+            if (botaoLike.src.includes("coracao-com-like.png")) {
+                botaoLike.src = "/src/assets/img/coracao-sem-like.png";
+                contadorLike--;
+            } else {
+                botaoLike.src = "/src/assets/img/coracao-com-like.png";
+                contadorLike++;
+            }
+
+            likeCounter.innerText = contadorLike;
+        }
+    });
+
+    ///////////////////////////  Novo comentário  ///////////////////////////
+    const inputComments = modalComments.querySelector("#inputComments");
+    const submitModal = modalComments.querySelector("#submitModal");
+    const commentsList = modalComments.querySelector(".comments-list");
+    const enviarComments = modalComments.querySelector(".enviarComments");
+
+    function enviarComentario() {
+        const texto = inputComments.value.trim();
+        if (texto === "") return;
+
+        const novoComentario = document.createElement("div");
+        novoComentario.classList.add("descriptionPhone");
+
+        const imgPhone = document.createElement("div");
+        imgPhone.classList.add("imgPhone");
+        const img = document.createElement("img");
+        img.src = list.fotoPerfilBase64 || fotoPerfil.src;
+        img.alt = "";
+        imgPhone.appendChild(img);
+
+        const infosPhone = document.createElement("div");
+        infosPhone.classList.add("infosPhone");
+        const nome = document.createElement("p");
+        nome.classList.add("profilePhones");
+        nome.innerText = list.NameUser;
+        const texto2 = document.createElement("p");
+        texto2.classList.add("textPhone");
+        texto2.innerText = texto;
+        infosPhone.appendChild(nome);
+        infosPhone.appendChild(texto2);
+
+        novoComentario.appendChild(imgPhone);
+        novoComentario.appendChild(infosPhone);
+
+        commentsList.insertBefore(novoComentario, enviarComments);
+
+        const commentsCounter = modalComments.querySelector(".commentsCounter");
+        if (commentsCounter) commentsCounter.innerText = Number(commentsCounter.innerText) + 1;
+
+        inputComments.value = "";
+        novoComentario.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    submitModal.addEventListener("click", enviarComentario);
+    inputComments.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            enviarComentario();
+        }
+    });
 }
 
 
@@ -160,6 +242,9 @@ btnConfig.addEventListener("click", () => {
 
 ///////////////////////////////  Painel: Editar Perfil  /////////////////////////////////
 const inputUsername = document.getElementById("inputUsername");
+const inputFotoPerfil = document.getElementById("inputFotoPerfil");
+const inputMusicaTitulo = document.getElementById("inputMusicaTitulo");
+const inputMusicaAutor = document.getElementById("inputMusicaAutor");
 const inputMusicaPerfil = document.getElementById("inputMusicaPerfil");
 const inputCapaMusica = document.getElementById("inputCapaMusica");
 const textareaBio = document.getElementById("textareaBio");
@@ -170,6 +255,8 @@ const btnSalvarPerfil = document.getElementById("btnSalvarPerfil");
 
 btnConfig.addEventListener("click", () => {
     inputUsername.value = list.NameUser || "";
+    inputMusicaTitulo.value = list.musicaTitulo || "";
+    inputMusicaAutor.value = list.musicaAutor || "";
     textareaBio.value = list.bio || "";
     textareaTrabalhos.value = list.trabalhos || "";
     contadorBio.innerText = textareaBio.value.length;
@@ -202,6 +289,19 @@ btnSalvarPerfil.addEventListener("click", async () => {
     list.NameUser = novoUsername;
     list.bio = textareaBio.value.trim();
     list.trabalhos = textareaTrabalhos.value.trim();
+    list.musicaTitulo = inputMusicaTitulo.value.trim();
+    list.musicaAutor = inputMusicaAutor.value.trim();
+
+    // Só troca a foto de perfil se a pessoa escolheu uma imagem nova
+    if (inputFotoPerfil.files.length > 0) {
+        try {
+            list.fotoPerfilBase64 = await lerArquivoComoBase64(inputFotoPerfil.files[0]);
+        } catch (erro) {
+            console.error("Erro ao ler a foto de perfil:", erro);
+            window.alert("Não deu pra ler a foto, tenta outra.");
+            return;
+        }
+    }
 
     // Só troca a música se a pessoa escolheu um arquivo novo
     if (inputMusicaPerfil.files.length > 0) {
@@ -237,9 +337,13 @@ btnSalvarPerfil.addEventListener("click", async () => {
     nameProfile.innerText = list.NameUser;
     bioTexto.innerText = list.bio;
     trabalhosTexto.innerText = list.trabalhos;
+    tituloMusica.innerText = list.musicaTitulo || tituloMusica.innerText;
+    autorMusica.innerText = list.musicaAutor || autorMusica.innerText;
+    if (list.fotoPerfilBase64) fotoPerfil.src = list.fotoPerfilBase64;
     if (list.musicaPerfilBase64) song.src = list.musicaPerfilBase64;
     if (list.capaMusicaBase64) capaMusica.src = list.capaMusicaBase64;
 
+    inputFotoPerfil.value = "";
     inputMusicaPerfil.value = "";
     inputCapaMusica.value = "";
     window.alert("Perfil atualizado!");
